@@ -1,0 +1,13 @@
+{
+  "name": "phantom-form",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cursed inputs for web forms, built on the Ghost Crew skeleton.",
+  "type": "module",
+  "license": "MIT",
+  "main": "app.js",
+  "bin": { "phantom-form": "bin/phantom-form.js" },
+  "scripts": {
+    "haunt:demo": "node ../scripts/midnight-haunt.mjs"
+  }
+}

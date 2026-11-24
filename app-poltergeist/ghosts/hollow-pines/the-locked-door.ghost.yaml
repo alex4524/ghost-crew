@@ -1,0 +1,6 @@
+ghost: The Locked Door
+lore: Walks the inn with only a keyboard and tries every door it can find.
+haunts: /index.html
+senses:
+  - keyboard-reach:
+      targets: [Book now, Reserve]

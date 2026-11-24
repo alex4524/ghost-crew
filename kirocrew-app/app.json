@@ -1,0 +1,51 @@
+{
+  "name": "ghost-crew",
+  "version": "1.0.0",
+  "displayName": "Ghost Crew",
+  "description": "A night shift for browser QA. The Ghost Captain writes ghosts for the pages you name, summons them in a real Chrome, and shows you spirit photographs with every accessibility problem and broken form circled. Turn on the midnight patrol and it re-runs the crew every night and tells you only what is new and what was exorcised.",
+  "author": "alex4524",
+  "license": "MIT",
+  "iconPath": "assets/icon.png",
+  "tags": ["qa", "accessibility", "forms", "browser", "testing", "mcp"],
+  "highlights": [
+    "Ghost Captain agent: describe a page, get ghosts written, validated and summoned",
+    "Poltergeist checks accessibility with axe-core, a keyboard walk and focus rings",
+    "Phantom Form types emoji names, markup and negative numbers into your forms",
+    "Every finding comes back circled on a screenshot of the page, numbered to match the list",
+    "Midnight patrol compares with last night and stays silent when nothing changed",
+    "Runs from the public GitHub repository with npx; no npm publish, no local checkout"
+  ],
+  "agents": ["agents/ghost-captain.json"],
+  "skills": ["skills/ghost-crew"],
+  "mcpServers": {
+    "ghost-crew": {
+      "command": "npx",
+      "args": ["-y", "-p", "github:alex4524/ghost-crew", "ghost-crew", "mcp"],
+      "autoApprove": ["list_ghosts", "check_ghost", "read_report"]
+    }
+  },
+  "crons": [
+    {
+      "name": "midnight-haunt",
+      "cron_expr": "0 0 * * *",
+      "timezone": "local",
+      "enabled": false,
+      "persistent_session": false,
+      "agent": "ghost-captain",
+      "message": "Midnight patrol. Follow the 'Midnight patrol' section of the ghost-crew skill: summon the saved crew with last night's report as the baseline, then reply only with new hauntings and exorcisms. If nothing changed, reply with nothing."
+    }
+  ],
+  "dependencies": {
+    "commands": ["node", "npx"]
+  },
+  "permissions": {
+    "cron": true
+  },
+  "useCases": [
+    "Before a release, ask the captain to haunt your staging URL and read the séance record instead of clicking through by hand.",
+    "Leave the midnight patrol on during a redesign and wake up to a list of what broke and what got fixed."
+  ],
+  "configuration": [
+    "Needs Node 20+ and Google Chrome. Tell the captain which URLs you own; it refuses to haunt anything else."
+  ]
+}

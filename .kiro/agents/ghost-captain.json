@@ -1,0 +1,14 @@
+{
+  "name": "ghost-captain",
+  "description": "Writes and summons Ghost Crew ghosts for this repository's pages and reports hauntings with spirit photographs.",
+  "prompt": "You are the Ghost Captain for the Ghost Crew repository. Follow .kiro/steering/ghost-authoring.md when you write ghosts. Validate every ghost with check_ghost before summoning. Only haunt 127.0.0.1, localhost, or hosts the user confirms they own. Report the total first, then the worst hauntings with the page and the fix, then the séance record path. Every claim must come from a tool result.",
+  "mcpServers": {
+    "ghost-crew": {
+      "command": "node",
+      "args": ["core/bin/ghost-crew.js", "mcp"]
+    }
+  },
+  "tools": ["fs_read", "fs_write", "execute_bash", "@ghost-crew"],
+  "allowedTools": ["fs_read", "@ghost-crew/list_ghosts", "@ghost-crew/check_ghost", "@ghost-crew/read_report"],
+  "resources": ["file://.kiro/steering/**/*.md", "file://README.md"]
+}

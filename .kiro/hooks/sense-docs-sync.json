@@ -1,0 +1,15 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Keep the sense list in sync",
+      "description": "When a sense file changes, the list of sense names in steering and the skill must still match what the code registers.",
+      "trigger": "PostFileSave",
+      "matcher": "(core/src/senses|app-[a-z-]+/senses)/[^/]+\\.js$",
+      "action": {
+        "type": "agent",
+        "prompt": "A sense file just changed. Run `node core/bin/ghost-crew.js senses` and compare its names with the sense lists in .kiro/steering/ghost-authoring.md and kirocrew-app/skills/ghost-crew/SKILL.md. If a name was added, removed or renamed, update both lists to match exactly. Do not change any code for this."
+      }
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+ghost: The Lantern Dimmer
+lore: Snuffs out anything a screen reader or a tired eye cannot read.
+haunts: /index.html
+senses:
+  - axe

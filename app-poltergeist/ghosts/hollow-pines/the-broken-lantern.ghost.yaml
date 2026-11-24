@@ -1,0 +1,6 @@
+ghost: The Broken Lantern
+lore: Counts the pictures that never arrived.
+haunts: /index.html
+senses:
+  - no-broken-images
+  - requests-ok

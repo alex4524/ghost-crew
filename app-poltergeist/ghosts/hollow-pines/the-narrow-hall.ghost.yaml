@@ -1,0 +1,8 @@
+ghost: The Narrow Hall
+lore: Visits on a phone and squeezes through every gap.
+haunts: /index.html
+device: mobile
+steps:
+  - scroll: Prices by season
+senses:
+  - no-overflow

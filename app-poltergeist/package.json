@@ -1,0 +1,13 @@
+{
+  "name": "poltergeist",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Accessibility hauntings, built on the Ghost Crew skeleton.",
+  "type": "module",
+  "license": "MIT",
+  "main": "app.js",
+  "bin": { "poltergeist": "bin/poltergeist.js" },
+  "scripts": {
+    "haunt:demo": "node ../scripts/midnight-haunt.mjs"
+  }
+}

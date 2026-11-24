@@ -1,0 +1,12 @@
+ghost: The Name Eater
+lore: Signs the guest book with every name a real guest might have.
+haunts: /index.html
+steps:
+  - scroll: Reserve a room
+senses:
+  - cursed-inputs:
+      submit: Reserve
+      success: Your room is held
+      valid: { Email: ada@example.com, Nights: 2 }
+      fields:
+        Guest name: [emoji, wide, long, markup, blank, apostrophe, rtl]

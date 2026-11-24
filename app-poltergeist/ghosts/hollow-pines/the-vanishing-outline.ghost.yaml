@@ -1,0 +1,5 @@
+ghost: The Vanishing Outline
+lore: Steals the ring of light that shows a keyboard user where they are.
+haunts: /index.html
+senses:
+  - focus-visible: { limit: 12 }

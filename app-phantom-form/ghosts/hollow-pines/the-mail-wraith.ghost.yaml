@@ -1,0 +1,10 @@
+ghost: The Mail Wraith
+lore: Writes from addresses the inn has never seen before.
+haunts: /index.html
+senses:
+  - cursed-inputs:
+      submit: Reserve
+      success: Your room is held
+      valid: { Guest name: Ada Lovelace, Nights: 2 }
+      fields:
+        Email: [weird-valid-email, markup, blank]

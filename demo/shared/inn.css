@@ -1,0 +1,40 @@
+/* Hollow Pines Inn: the demo site both houses share. */
+:root { --mist: #EEF1EC; --card: #FFFFFF; --ink: #1E2A23; --muted: #4A5750; --pine: #2F5D46; --pine-deep: #1F3B2D; --lantern: #B8741C; --line: #CFD7CF; }
+* { box-sizing: border-box; }
+html { background: var(--mist); color: var(--ink); font: 17px/1.55 "Avenir Next", "Segoe UI", system-ui, sans-serif; }
+body { margin: 0; }
+h1, h2, h3 { font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif; font-weight: 600; line-height: 1.12; margin: 0 0 .5rem; }
+a { color: var(--pine); }
+.notice { display: flex; align-items: center; justify-content: center; gap: 1rem; padding: .55rem 1rem; background: var(--pine-deep); color: #F4F1E8; font-size: .92rem; }
+.notice button { background: none; border: 0; color: inherit; cursor: pointer; padding: 4px; line-height: 0; }
+.site { display: flex; align-items: center; justify-content: space-between; gap: 1rem; max-width: 1120px; margin: 0 auto; padding: 1.1rem 1.5rem; }
+.logo { display: flex; align-items: center; gap: .6rem; font-family: "Iowan Old Style", Georgia, serif; font-size: 1.35rem; font-weight: 600; color: var(--ink); text-decoration: none; }
+.logo svg { width: 30px; height: 30px; }
+.site nav { display: flex; gap: 1.4rem; flex-wrap: wrap; }
+.site nav a { color: var(--ink); text-decoration: none; font-weight: 600; }
+.hero { position: relative; max-width: 1120px; margin: 0 auto; border-radius: 18px; overflow: hidden; min-height: 440px; display: grid; align-items: end; }
+.hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.hero-copy { position: relative; padding: 2.4rem; max-width: 640px; color: #FAF7EE; }
+.hero-copy h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); }
+.cta { display: inline-block; margin-top: 1rem; padding: .8rem 1.5rem; border-radius: 999px; background: #F2C46D; color: #1E2A23; font-weight: 700; text-decoration: none; }
+main section { max-width: 1120px; margin: 0 auto; padding: 3rem 1.5rem 0; }
+.rooms { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.2rem; margin-top: 1rem; }
+.room { background: var(--card); border-radius: 14px; padding: 1.2rem 1.3rem; box-shadow: 0 1px 0 var(--line); }
+.room img { width: 100%; height: 130px; object-fit: cover; border-radius: 10px; background: #DCE3DC; display: block; margin-bottom: .8rem; }
+.room p { margin: .3rem 0; color: var(--muted); }
+.price { font-weight: 700; color: var(--ink); }
+table { border-collapse: collapse; margin-top: 1rem; background: var(--card); border-radius: 12px; overflow: hidden; }
+th, td { text-align: left; padding: .6rem 1rem; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.booking { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 380px); gap: 2rem; align-items: start; }
+form { background: var(--card); padding: 1.6rem; border-radius: 16px; display: grid; gap: .9rem; }
+form label { font-weight: 600; display: grid; gap: .3rem; }
+input, select { font: inherit; padding: .65rem .8rem; border: 1px solid #93A096; border-radius: 10px; background: #FBFCFA; color: var(--ink); width: 100%; }
+form button { font: inherit; font-weight: 700; padding: .8rem 1rem; border: 0; border-radius: 999px; background: var(--pine); color: #FFFFFF; cursor: pointer; }
+.error { color: #9B2C2C; font-weight: 600; min-height: 1.5em; margin: 0; }
+.confirmation { background: var(--pine-deep); color: #F6F2E8; border-radius: 16px; padding: 1.4rem; width: 340px; max-width: 100%; }
+.confirmation h3 { font-size: 1.4rem; }
+.avatar { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: #F2C46D; color: #1E2A23; font: 700 1.3rem Georgia, serif; margin-bottom: .7rem; }
+.tag { display: inline-block; width: 12ch; white-space: nowrap; padding: .2rem .6rem; border: 1px dashed #F2C46D; border-radius: 6px; }
+.stub { font-family: "Courier New", monospace; font-size: .85rem; opacity: .9; }
+footer { max-width: 1120px; margin: 3rem auto 0; padding: 2rem 1.5rem 3rem; color: var(--muted); border-top: 1px solid var(--line); }
+@media (max-width: 760px) { .booking { grid-template-columns: 1fr; } .hero-copy { padding: 1.5rem; } }

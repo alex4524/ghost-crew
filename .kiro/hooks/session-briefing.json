@@ -1,0 +1,12 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Brief the session with last night's séance",
+      "description": "At session start, prints the newest report's totals and its worst hauntings so the agent starts from evidence instead of guesses.",
+      "trigger": "SessionStart",
+      "action": { "type": "command", "command": "node scripts/hooks/briefing.mjs" },
+      "timeout": 10
+    }
+  ]
+}

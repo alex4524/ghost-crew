@@ -1,0 +1,11 @@
+ghost: The Night Counter
+lore: Asks to stay for nights that cannot exist.
+haunts: /index.html
+senses:
+  - cursed-inputs:
+      submit: Reserve
+      success: Your room is held
+      valid: { Guest name: Ada Lovelace, Email: ada@example.com }
+      forbid: ['\$-\d+', '\d(\.\d+)?e\+\d+', 'NaN', '-\d+ nights']
+      fields:
+        Nights: [negative, zero, huge]

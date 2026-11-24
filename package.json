@@ -1,0 +1,46 @@
+{
+  "name": "ghost-crew",
+  "version": "1.0.0",
+  "description": "A skeleton crew of ghosts that walk your web app in a real browser and bring back spirit photographs of everything that breaks.",
+  "type": "module",
+  "license": "MIT",
+  "author": "alex4524",
+  "homepage": "https://alex4524.github.io/ghost-crew/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alex4524/ghost-crew.git"
+  },
+  "keywords": ["qa", "accessibility", "testing", "browser", "mcp", "kiro", "halloween"],
+  "bin": {
+    "ghost-crew": "core/bin/ghost-crew.js",
+    "poltergeist": "app-poltergeist/bin/poltergeist.js",
+    "phantom-form": "app-phantom-form/bin/phantom-form.js"
+  },
+  "exports": {
+    ".": "./core/index.js"
+  },
+  "files": [
+    "core/index.js",
+    "core/bin",
+    "core/src",
+    "app-poltergeist",
+    "app-phantom-form"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test --test-concurrency=1 \"core/test/*.test.js\"",
+    "demo": "node core/bin/ghost-crew.js serve demo --port 4173",
+    "haunt:poltergeist": "node app-poltergeist/bin/poltergeist.js http://127.0.0.1:4173/haunted/ --out ghost-reports/poltergeist",
+    "haunt:phantom": "node app-phantom-form/bin/phantom-form.js http://127.0.0.1:4173/haunted/ --out ghost-reports/phantom-form",
+    "midnight": "node scripts/midnight-haunt.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "axe-core": "^4.14.1",
+    "playwright-core": "^1.65.1",
+    "yaml": "^2.9.1",
+    "zod": "^3.25.76"
+  }
+}

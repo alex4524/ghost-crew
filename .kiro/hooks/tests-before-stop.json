@@ -1,0 +1,12 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Run the tests before the agent stops",
+      "description": "The agent cannot call a change done while the parser, report or crew tests fail.",
+      "trigger": "Stop",
+      "action": { "type": "command", "command": "npm test --silent" },
+      "timeout": 300
+    }
+  ]
+}

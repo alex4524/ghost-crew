@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ghost Crew: every web app is haunted</title>
+<meta name="description" content="Ghost Crew is an open-source skeleton for browser QA. Write a ghost in a few lines of YAML; it walks your pages in a real Chrome and brings back a spirit photograph of everything that broke.">
+<meta property="og:title" content="Ghost Crew: every web app is haunted">
+<meta property="og:description" content="A skeleton crew of ghosts that walk your web app in a real browser and photograph what breaks.">
+<meta property="og:image" content="https://alex4524.github.io/ghost-crew/reports/poltergeist/cover.png">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=IM+Fell+English:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<div class="fog" aria-hidden="true"></div>
+<a class="skip" href="#main">Skip to the content</a>
+
+<header class="top wrap">
+  <a class="mark" href="./" aria-label="Ghost Crew home">
+    <svg class="mark-ghost" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3C9.9 3 6 7.6 6 13.6V28.5l3.4-2.5 3.3 2.5 3.3-2.5 3.3 2.5 3.3-2.5 3.4 2.5V13.6C26 7.6 22.1 3 16 3z" fill="currentColor"/><ellipse cx="12.4" cy="14.2" rx="1.7" ry="2.3" fill="#D8D9D4"/><ellipse cx="19.6" cy="14.2" rx="1.7" ry="2.3" fill="#D8D9D4"/></svg>
+    <span>Ghost Crew</span>
+  </a>
+  <nav aria-label="Site">
+    <a href="#last-night">Last night</a>
+    <a href="#how">How it works</a>
+    <a href="#kiro">Built with Kiro</a>
+    <a href="https://github.com/alex4524/ghost-crew">Source</a>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="hero wrap" aria-labelledby="hero-h">
+    <div class="hero-copy">
+      <h1 id="hero-h"><span>Every web app</span> <span>is haunted.</span></h1>
+      <p class="lede">Ghost Crew is a small skeleton for browser QA. You describe a walk through your page in a few lines of YAML. A ghost takes that walk in a real Chrome, notices what breaks, and brings back a spirit photograph with every problem circled.</p>
+      <p class="actions">
+        <a class="button primary" href="reports/poltergeist/">Read last night’s séance</a>
+        <a class="button" href="#summon">Summon one yourself</a>
+      </p>
+    </div>
+    <figure class="cabinet">
+      <div class="mount">
+        <a href="reports/poltergeist/" class="photo-link">
+          <img id="cover" src="reports/poltergeist/cover.png" width="1280" height="900"
+               alt="Spirit photograph of the Hollow Pines Inn demo page: the page in silver tones, with glowing rings and numbered seals on a missing alt text, an unlabeled close button, unreadable grey text and a missing language attribute.">
+        </a>
+      </div>
+      <figcaption id="cover-caption">Plate one. The Hollow Pines Inn, photographed by Poltergeist at midnight UTC. Each numbered seal is a haunting, explained in the séance record.</figcaption>
+    </figure>
+  </section>
+
+  <section class="night wrap" id="last-night" aria-labelledby="night-h">
+    <div class="section-head">
+      <h2 id="night-h">Last night at midnight</h2>
+      <p>GitHub Actions summons both apps every night against a demo inn with bugs planted on purpose, then against the same inn with every bug fixed. These numbers come from that run.</p>
+    </div>
+    <ol class="ledger" id="ledger">
+      <li><span class="who">Poltergeist</span><span class="where">the haunted inn</span><span class="n">9 hauntings</span><a href="reports/poltergeist/">Open the séance record</a></li>
+      <li><span class="who">Phantom Form</span><span class="where">the haunted inn</span><span class="n">13 hauntings</span><a href="reports/phantom-form/">Open the séance record</a></li>
+      <li><span class="who">Poltergeist</span><span class="where">the exorcised inn</span><span class="n">quiet</span><a href="reports/poltergeist-exorcised/">Open the séance record</a></li>
+      <li><span class="who">Phantom Form</span><span class="where">the exorcised inn</span><span class="n">quiet</span><a href="reports/phantom-form-exorcised/">Open the séance record</a></li>
+    </ol>
+    <p class="fine" id="night-meta">Visit the <a href="demo/haunted/">haunted inn</a> or the <a href="demo/exorcised/">exorcised inn</a> to see the pages the ghosts walked.</p>
+  </section>
+
+  <section class="how wrap" id="how" aria-labelledby="how-h">
+    <div class="section-head">
+      <h2 id="how-h">How a haunting works</h2>
+      <p>Four steps, and the first one is the only one you write.</p>
+    </div>
+    <ol class="steps">
+      <li>
+        <h3>Write a ghost</h3>
+        <p>One file per concern. Targets are what a person sees: a button’s text, a field’s label.</p>
+<pre><code><span class="k">ghost:</span> The Locked Door
+<span class="k">haunts:</span> /index.html
+<span class="k">senses:</span>
+  - <span class="k">keyboard-reach:</span>
+      <span class="k">targets:</span> [Book now, Reserve]</code></pre>
+      </li>
+      <li>
+        <h3>Summon the crew</h3>
+        <p>One Chrome, one private context per ghost, four walking at once.</p>
+<pre><code><span class="p">$</span> poltergeist https://your.app \
+    --ghosts ghosts/
+<span class="d">✦ The Locked Door   1 haunting</span>
+<span class="d">✦ The Lantern Dimmer  4 hauntings</span></code></pre>
+      </li>
+      <li>
+        <h3>Read the spirit photograph</h3>
+        <p>Every haunting is circled on the page itself, numbered to match the list beside it. Flip to the living page to compare.</p>
+        <a class="thumb" href="reports/phantom-form/"><img src="reports/phantom-form/cover.png" alt="A spirit photograph from Phantom Form: the booking confirmation, with the overflowing guest name circled"></a>
+      </li>
+      <li>
+        <h3>Exorcise, then compare</h3>
+        <p>Pass last night’s report as a baseline. The record splits hauntings into new, still haunting and exorcised.</p>
+<pre><code><span class="p">$</span> poltergeist https://your.app \
+    --baseline last/report.json
+<span class="d">9 exorcised, 0 new</span></code></pre>
+      </li>
+    </ol>
+  </section>
+
+  <section class="apps wrap" aria-labelledby="apps-h">
+    <div class="section-head">
+      <h2 id="apps-h">One skeleton, two apps</h2>
+      <p>The core walks pages, takes photographs and writes the record. An app only adds senses, a theme and its own crew. Both apps below are about 220 lines each.</p>
+    </div>
+    <div class="pair">
+      <article>
+        <h3>Poltergeist</h3>
+        <p class="tag">Finds the parts of a page that some people cannot see, reach or read.</p>
+        <ul>
+          <li><code>axe</code> runs axe-core and circles every failing element</li>
+          <li><code>keyboard-reach</code> tabs through the page and finds what the keyboard never reaches</li>
+          <li><code>focus-visible</code> catches focus rings that were styled away</li>
+        </ul>
+        <p class="fine">With no ghosts at all, <code>npx poltergeist &lt;url&gt;</code> runs a desktop sweep, a keyboard walk and a phone visit.</p>
+      </article>
+      <article>
+        <h3>Phantom Form</h3>
+        <p class="tag">Types what real people type into your forms, one cursed value at a time.</p>
+        <ul>
+          <li>Fourteen curses: emoji names, apostrophes, right-to-left text, markup, negative nights</li>
+          <li>Each curse gets a fresh page and its own photograph</li>
+          <li>Catches crashes, script injection, broken characters, blank answers accepted and real answers refused</li>
+        </ul>
+        <p class="fine">With no ghosts at all, <code>npx phantom-form &lt;url&gt;</code> finds the first form and picks curses by field type.</p>
+      </article>
+    </div>
+    <div class="extend">
+      <h3>A new kind of ghost is one file</h3>
+<pre><code><span class="k">import</span> { defineSense } <span class="k">from</span> <span class="s">'ghost-crew'</span>;
+
+defineSense(<span class="s">'no-lorem-ipsum'</span>, {
+  <span class="k">async</span> run(ctx) {
+    <span class="k">const</span> hit = <span class="k">await</span> ctx.page.getByText(<span class="s">/lorem ipsum/i</span>).first();
+    <span class="k">if</span> (<span class="k">await</span> hit.count())
+      <span class="k">await</span> ctx.haunt({
+        mood: <span class="s">'mischievous'</span>,
+        title: <span class="s">'Placeholder text shipped'</span>,
+        locator: hit,   <span class="c">// circled in the photograph</span>
+      });
+  },
+});</code></pre>
+    </div>
+  </section>
+
+  <section class="kiro wrap" id="kiro" aria-labelledby="kiro-h">
+    <div class="section-head">
+      <h2 id="kiro-h">Built with Kiro</h2>
+      <p>The repository was planned and built in Kiro Crew, spec first. Everything below is in the repo, under <code>.kiro/</code> and <code>kirocrew-app/</code>.</p>
+    </div>
+    <table class="parts">
+      <thead><tr><th scope="col">Kiro part</th><th scope="col">What it does here</th><th scope="col">Where</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Specs</th><td>Requirements in EARS form, a design with the data model, and the task list the build followed</td><td><code>.kiro/specs/</code></td></tr>
+        <tr><th scope="row">Steering</th><td>Vocabulary, tech rules, folder rules, the exact ghost file shape, and this page’s design tokens</td><td><code>.kiro/steering/</code></td></tr>
+        <tr><th scope="row">Hooks</th><td>Check a ghost the moment it is saved, brief each session with last night’s numbers, run tests before the agent stops</td><td><code>.kiro/hooks/</code></td></tr>
+        <tr><th scope="row">MCP</th><td><code>ghost-crew mcp</code> gives the agent five tools: list, check, write, summon, read</td><td><code>.kiro/settings/mcp.json</code></td></tr>
+        <tr><th scope="row">Kiro Crew app</th><td>A Ghost Captain agent and an optional midnight patrol that reports only what changed</td><td><code>kirocrew-app/</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="summon wrap" id="summon" aria-labelledby="summon-h">
+    <div class="section-head">
+      <h2 id="summon-h">Summon one yourself</h2>
+      <p>You need Node 20 or newer and Google Chrome. Only haunt sites you own or may test.</p>
+    </div>
+<pre class="terminal"><code><span class="c"># one command, nothing to install</span>
+<span class="p">$</span> npx -y -p github:alex4524/ghost-crew poltergeist https://your.app
+<span class="p">$</span> npx -y -p github:alex4524/ghost-crew phantom-form https://your.app/signup
+
+<span class="c"># or clone it and watch both apps haunt the demo inn</span>
+<span class="p">$</span> git clone https://github.com/alex4524/ghost-crew && cd ghost-crew
+<span class="p">$</span> npm install && npm run midnight
+<span class="p">$</span> open site/reports/poltergeist/index.html
+
+<span class="c"># give your Kiro agent the crew: .kiro/settings/mcp.json</span>
+{ <span class="s">"mcpServers"</span>: { <span class="s">"ghost-crew"</span>: { <span class="s">"command"</span>: <span class="s">"npx"</span>,
+    <span class="s">"args"</span>: [<span class="s">"-y"</span>, <span class="s">"-p"</span>, <span class="s">"github:alex4524/ghost-crew"</span>, <span class="s">"ghost-crew"</span>, <span class="s">"mcp"</span>] } } }</code></pre>
+  </section>
+</main>
+
+<footer class="foot wrap">
+  <p>Ghost Crew is open source under the MIT license. Made for Kiroween 2026. The inn, its rooms and its guests are fictional.</p>
+  <p><a href="https://github.com/alex4524/ghost-crew">Source on GitHub</a></p>
+</footer>
+
+<script src="site.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "ghost-crew": {
+      "command": "node",
+      "args": ["core/bin/ghost-crew.js", "mcp"],
+      "autoApprove": ["list_ghosts", "check_ghost", "read_report"],
+      "disabled": false
+    }
+  }
+}

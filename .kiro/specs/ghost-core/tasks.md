@@ -1,0 +1,30 @@
+# Tasks: Ghost Crew core
+
+- [x] 1. Ghost parser
+  - [x] 1.1 Parse YAML, normalise steps and senses into `{ name, options }`
+  - [x] 1.2 Collect all validation errors with file, key and allowed values
+  - [x] 1.3 `ghost-crew check` command
+  - _Requirements: 1.1, 1.2, 1.5_
+- [x] 2. Target locator: visible text, label, placeholder, `css:` prefix
+  - _Requirements: 1.4_
+- [x] 3. Runner
+  - [x] 3.1 One Chrome, one context per ghost, pool of `--crew-size`
+  - [x] 3.2 Record console errors, page errors, failed requests per scene
+  - [x] 3.3 Steps: click, fill, press, wait, scroll; mark ghost `lost` on failure
+  - [x] 3.4 Sense context with `haunt`, `scene`, `locate`, `tally`
+  - _Requirements: 2.1–2.4, 3.1–3.3_
+- [x] 4. Built-in senses: text-visible, text-absent, console-clean, no-overflow,
+  no-broken-images, broken-characters, requests-ok
+  - _Requirements: 3.4_
+- [x] 5. Spirit photographs (living + spirit PNG, numbered seals, cover.png)
+  - _Requirements: 4.1–4.3_
+- [x] 6. Séance record
+  - [x] 6.1 `report.json` model and totals
+  - [x] 6.2 Exorcism diff against `--baseline`
+  - [x] 6.3 HTML renderer following `spirit-design.md`
+  - _Requirements: 5.1–5.3_
+- [x] 7. CLI exit codes and `--fail-on`
+  - _Requirements: 2.5_
+- [x] 8. MCP server with five tools
+  - _Requirements: 6.1–6.3_
+- [x] 9. Tests: parser, diff, crew against both demo houses

@@ -1,0 +1,13 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Check a ghost when it is saved",
+      "description": "Validates a *.ghost.yaml the moment the agent saves it, without opening a browser, and prints every problem so the agent fixes the file before summoning it.",
+      "trigger": "PostFileSave",
+      "matcher": "\\.ghost\\.yaml$",
+      "action": { "type": "command", "command": "node scripts/hooks/check-saved-ghost.mjs" },
+      "timeout": 20
+    }
+  ]
+}

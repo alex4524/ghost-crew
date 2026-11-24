@@ -1,0 +1,7 @@
+node_modules/
+ghost-reports/
+site/reports/
+_site/
+.DS_Store
+*.log
+video/build/
