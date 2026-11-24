@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=IM+Fell+English:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="card.css">
+<style>
+  .wrap { display: grid; grid-template-columns: 620px 900px; gap: 90px; align-items: center; }
+  h2 { font-family: var(--display); font-weight: 400; font-size: 110px; line-height: 1; margin: 0; }
+  .file { margin-top: 26px; font-family: var(--mono); font-size: 28px; color: var(--verdigris); }
+  pre { margin: 0; background: #24202E; color: #E9E6EF; padding: 44px 50px; border-radius: 16px; font-size: 34px; line-height: 1.6;
+    box-shadow: 0 40px 80px -40px rgba(36,32,46,.8), 0 0 120px -20px rgba(92,225,208,.45); }
+  .k { color: #8FE9DD; } .s { color: #F3C98B; } .c { color: #8C8798; font-style: italic; }
+  pre span.l { display: block; opacity: 0; animation: in .45s ease forwards; }
+</style></head>
+<body><div class="fog"></div>
+<div class="stage"><div class="wrap">
+  <div><h2 class="reveal">Write a ghost</h2><p class="file reveal" style="animation-delay:.4s">the-locked-door.ghost.yaml</p></div>
+<pre><span class="l" style="animation-delay:.6s"><span class="k">ghost:</span> The Locked Door</span><span class="l" style="animation-delay:1.1s"><span class="k">lore:</span> Walks the inn with only a keyboard.</span><span class="l" style="animation-delay:1.8s"><span class="k">haunts:</span> /index.html</span><span class="l" style="animation-delay:2.5s"><span class="k">steps:</span></span><span class="l" style="animation-delay:2.9s">  - <span class="k">scroll:</span> Reserve a room</span><span class="l" style="animation-delay:3.6s"><span class="k">senses:</span></span><span class="l" style="animation-delay:4.1s">  - <span class="k">keyboard-reach:</span></span><span class="l" style="animation-delay:4.6s">      <span class="k">targets:</span> [<span class="s">Book now</span>, <span class="s">Reserve</span>]</span><span class="l" style="animation-delay:5.2s">  - <span class="k">focus-visible</span>   <span class="c"># a second sense</span></span></pre>
+</div></div>
+</body></html>

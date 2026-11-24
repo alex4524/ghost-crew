@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=IM+Fell+English:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="card.css">
+<style>
+  .term { width: 1500px; background: #1E1B26; border-radius: 18px; overflow: hidden; box-shadow: 0 50px 100px -40px rgba(36,32,46,.85), 0 0 140px -20px rgba(92,225,208,.4); }
+  .bar { height: 54px; background: #2C2836; display: flex; align-items: center; gap: 12px; padding: 0 22px; }
+  .bar i { width: 16px; height: 16px; border-radius: 50%; background: #4A4556; }
+  .bar span { margin-left: 18px; color: #9C97A8; font-family: var(--mono); font-size: 22px; }
+  pre { margin: 0; padding: 36px 44px 44px; color: #E9E6EF; font-size: 30px; line-height: 1.65; min-height: 640px; white-space: pre; }
+  .p { color: #8C8798; } .teal { color: #5CE1D0; } .wax { color: #E07A8A; } .amber { color: #E3A55A; } .dim { color: #8C8798; } .b { font-weight: 600; }
+  pre > span { display: block; opacity: 0; }
+  pre > span.on { opacity: 1; }
+  .cursor { display: inline-block; width: 16px; height: 32px; background: #5CE1D0; vertical-align: -6px; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+</style></head>
+<body><div class="fog"></div>
+<div class="stage"><div class="term">
+  <div class="bar"><i></i><i></i><i></i><span>~/hollow-pines</span></div>
+<pre id="out"><span><span class="p">$</span> <b id="cmd"></b></span><span> </span><span>  <span class="teal">✦</span> <span class="b">Ghost Crew</span> <span class="dim">/</span> <span class="b">Poltergeist</span></span><span>  Summoning 5 ghosts against <i>http://127.0.0.1:4173/haunted/</i></span><span> </span><span>  <span class="teal">✦</span> The Broken Lantern <span class="dim">...........</span> <span class="b">2 hauntings</span>  <span class="amber">2 restless</span>  <span class="dim">1.6s</span></span><span>  <span class="teal">✦</span> The Narrow Hall <span class="dim">..............</span> <span class="b">1 haunting</span>  <span class="amber">1 restless</span>  <span class="dim">2.1s</span></span><span>  <span class="teal">✦</span> The Lantern Dimmer <span class="dim">...........</span> <span class="b">4 hauntings</span>  <span class="wax">2 wrathful</span>  <span class="amber">2 restless</span>  <span class="dim">2.3s</span></span><span>  <span class="teal">✦</span> The Locked Door <span class="dim">..............</span> <span class="b">1 haunting</span>  <span class="wax">1 wrathful</span>  <span class="dim">2.4s</span></span><span>  <span class="teal">✦</span> The Vanishing Outline <span class="dim">........</span> <span class="b">1 haunting</span>  <span class="amber">1 restless</span>  <span class="dim">1.0s</span></span><span> </span><span>  <span class="b">9 hauntings</span> <span class="dim">(3.7s)</span></span><span>  Séance record: <span class="teal">ghost-reports/poltergeist/index.html</span></span><span><span class="p">$</span> <span class="cursor"></span></span></pre>
+</div></div>
+<script>
+  // Replays the real CLI output of `npm run midnight` on 2026-11-24 (see README).
+  const cmd = 'npx poltergeist http://127.0.0.1:4173/haunted/ --ghosts ghosts/';
+  const lines = [...document.querySelectorAll('#out > span')];
+  lines[0].classList.add('on');
+  let i = 0;
+  const type = setInterval(() => {
+    document.getElementById('cmd').textContent = cmd.slice(0, ++i);
+    if (i >= cmd.length) { clearInterval(type); reveal(1); }
+  }, 38);
+  const delays = [500, 250, 300, 900, 1100, 900, 900, 700, 600, 500, 400, 400];
+  function reveal(n) { if (n >= lines.length) return; setTimeout(() => { lines[n].classList.add('on'); reveal(n + 1); }, delays[n - 1] ?? 400); }
+</script>
+</body></html>

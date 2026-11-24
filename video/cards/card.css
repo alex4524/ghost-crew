@@ -1,0 +1,13 @@
+:root { --plate: #D8D9D4; --paper: #EFEFEA; --ink: #24202E; --tarnish: #55515D; --verdigris: #0A5E56; --ectoplasm: #5CE1D0;
+  --display: 'IM Fell English', Georgia, serif; --body: 'Atkinson Hyperlegible', system-ui, sans-serif; --mono: 'JetBrains Mono', Menlo, monospace; }
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: var(--plate); color: var(--ink); font-family: var(--body); }
+.fog { position: fixed; inset: -20%; pointer-events: none; opacity: .7;
+  background: radial-gradient(900px 600px at 20% 25%, rgba(255,255,255,.75), transparent 70%), radial-gradient(1000px 700px at 80% 75%, rgba(92,225,208,.2), transparent 70%);
+  animation: drift 14s ease-in-out infinite alternate; }
+@keyframes drift { from { transform: translateX(-30px); } to { transform: translate(40px, -20px); } }
+.stage { position: relative; height: 100%; display: grid; place-items: center; }
+.reveal { opacity: 0; transform: translateY(14px); animation: in .9s ease forwards; }
+@keyframes in { to { opacity: 1; transform: none; } }
+.ghost { width: 120px; height: 120px; color: var(--ink); filter: drop-shadow(0 0 22px rgba(92,225,208,.95)); }
+pre { font-family: var(--mono); }

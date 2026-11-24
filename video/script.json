@@ -1,0 +1,28 @@
+{
+  "voice": "Daniel",
+  "rate": 172,
+  "scenes": [
+    { "id": "01-title", "kind": "card", "card": "title.html",
+      "say": "Every web app is haunted. This is Ghost Crew: a skeleton for browser QA, built with Kiro for Kiroween." },
+    { "id": "02-inn", "kind": "inn",
+      "say": "Before every release, someone walks the pages by hand. Tab with the keyboard. Type a strange name into the form. Check it on a phone. Things slip through. This little inn has fifteen bugs, planted on purpose." },
+    { "id": "03-ghost", "kind": "card", "card": "ghost.html",
+      "say": "With Ghost Crew, you write a ghost instead. A few lines of YAML: which page to haunt, what to click, and which senses to use." },
+    { "id": "04-summon", "kind": "card", "card": "terminal.html",
+      "say": "Then you summon the crew. One real Chrome, a private context for every ghost, four walking at once. Poltergeist, the accessibility app, comes back with nine hauntings in a few seconds." },
+    { "id": "05-spirit", "kind": "spirit",
+      "say": "Every ghost brings back a spirit photograph. The page turns to silver, and every problem glows, numbered to match the list. A missing alt text. A close button with no name. A Book now button the keyboard can never reach. Flip the switch to see the living page." },
+    { "id": "06-phantom", "kind": "phantom",
+      "say": "The second app, Phantom Form, types what real people type. An emoji in a name turns into broken characters. Markup in the name field runs as code. A long name crashes the page. Most curses got through." },
+    { "id": "07-exorcism", "kind": "exorcism",
+      "say": "Fix the bugs, pass last night's report as the baseline, and the record shows what you exorcised. Every haunting is gone, and nothing new appeared. The house is quiet." },
+    { "id": "08-skeleton", "kind": "section", "hash": "apps-h", "scrollTo": ".extend",
+      "say": "Both apps sit on the same skeleton. Each app is about two hundred lines: a few senses, a theme, and its own crew. A new kind of ghost is a single file." },
+    { "id": "09-kiro", "kind": "section", "hash": "kiro-h", "scrollTo": ".parts",
+      "say": "It was built in Kiro Crew, spec first. Steering fixes the vocabulary and the exact shape of a ghost. Hooks check every ghost on save, and run the tests before the agent stops. An MCP server gives any Kiro agent five tools to write and summon ghosts. And a Kiro Crew app adds a Ghost Captain, with an optional midnight patrol." },
+    { "id": "10-nightly", "kind": "section", "hash": "night-h", "scrollTo": "#summon",
+      "say": "Every night at midnight, GitHub Actions haunts the inn again and publishes the records. Point it at your own site with one n p x command." },
+    { "id": "11-end", "kind": "card", "card": "end.html",
+      "say": "Ghost Crew. Let the ghosts find it, before your users do." }
+  ]
+}
