@@ -59,7 +59,7 @@ parser):
 
 ## 6. What Kiro Crew did during the build
 
-- Ran the demo crew dozens of times and read its own spirit photographs. The first
+- Ran the demo crew many times and read its own spirit photographs. The first
   Phantom Form photographs showed the top of the page while the haunting sat lower down;
   that is why `photograph.js` now also saves a crop around the evidence.
 - Used agent-browser to review the séance record and landing page at desktop and phone

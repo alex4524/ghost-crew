@@ -75,7 +75,7 @@ The whole project was built in **Kiro Crew**, spec first:
 - **MCP.** `ghost-crew mcp` is a stdio server with five tools: `list_ghosts`, `check_ghost`, `write_ghost` (refuses invalid YAML and paths outside the project), `summon`, `read_report`. A test drives it with the official MCP client exactly as Kiro does.
 - **Kiro Crew app** (`kirocrew-app/`): a Ghost Captain agent, a skill, the MCP server launched straight from GitHub with `npx`, and an optional midnight patrol cron.
 
-Kiro Crew also reviewed its own output. It ran the crew against the demo dozens of times, opened the spirit photographs, and fixed what it saw: the first Phantom Form photographs showed the top of the page while the haunting sat lower down, so the photographer now also saves a crop around the evidence. When it measured the design tokens, one link colour was 4.49:1, just under WCAG AA, so it darkened the token and added `scripts/contrast.mjs` to CI.
+Kiro Crew also reviewed its own output. It ran the crew against the demo again and again, opened the spirit photographs, and fixed what it saw: the first Phantom Form photographs showed the top of the page while the haunting sat lower down, so the photographer now also saves a crop around the evidence. When it measured the design tokens, one link colour was 4.49:1, just under WCAG AA, so it darkened the token and added `scripts/contrast.mjs` to CI.
 
 Stack: Node 20 ESM with no build step, `playwright-core` driving the Chrome already installed (no browser download), axe-core, the MCP SDK, YAML. The core is 16 files; each app is about 220 lines.
 
