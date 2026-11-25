@@ -1,10 +1,12 @@
 name: Midnight haunt
 
-# Every night at 00:00 UTC both apps haunt the demo inn, the exorcised inn is compared
-# with the haunted one, and the séance records are published to GitHub Pages.
+# Every night shortly after midnight UTC both apps haunt the demo inn, the exorcised inn is
+# compared with the haunted one, and the séance records are published to GitHub Pages.
+# 00:23, not 00:00: GitHub delays or drops scheduled runs at the top of the hour under load
+# (the 00:00 run on 2026-11-25 never started).
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '23 0 * * *'
   push:
     branches: [main]
   workflow_dispatch:

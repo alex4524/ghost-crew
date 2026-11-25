@@ -5,10 +5,52 @@
   "mcpServers": {
     "ghost-crew": {
       "command": "node",
-      "args": ["core/bin/ghost-crew.js", "mcp"]
+      "args": [
+        "core/bin/ghost-crew.js",
+        "mcp"
+      ]
     }
   },
-  "tools": ["fs_read", "fs_write", "execute_bash", "@ghost-crew"],
-  "allowedTools": ["fs_read", "@ghost-crew/list_ghosts", "@ghost-crew/check_ghost", "@ghost-crew/read_report"],
-  "resources": ["file://.kiro/steering/**/*.md", "file://README.md"]
+  "tools": [
+    "@ghost-crew",
+    "read",
+    "shell",
+    "write"
+  ],
+  "allowedTools": [
+    "fs_read",
+    "@ghost-crew/list_ghosts",
+    "@ghost-crew/check_ghost",
+    "@ghost-crew/read_report"
+  ],
+  "resources": [
+    "file://.kiro/steering/**/*.md",
+    "file://README.md"
+  ],
+  "permissions": {
+    "rules": [
+      {
+        "capability": "fs_read",
+        "effect": "allow"
+      },
+      {
+        "capability": "mcp",
+        "match": [
+          "ghost-crew/check_ghost",
+          "ghost-crew/list_ghosts",
+          "ghost-crew/read_report"
+        ],
+        "effect": "allow"
+      },
+      {
+        "capability": "skill",
+        "effect": "allow"
+      }
+    ]
+  },
+  "kiroUpgrade": {
+    "revision": 3,
+    "fingerprint": "sha256:70405cebb89a7ce8e9cfe0be4a9d702cad24ec97ca328e4549da4b32c8e7632c",
+    "source": "sha256:31bec525ee6269e20a4d3b1da77b741759a603dcd4dde2104fb37b50051ad270"
+  }
 }

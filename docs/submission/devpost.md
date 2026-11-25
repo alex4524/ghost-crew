@@ -40,7 +40,7 @@ javascript, node.js, playwright, chrome, axe-core, model-context-protocol, yaml,
 
 No login is needed. Three ways to test, fastest first:
 
-1. Open https://alex4524.github.io/ghost-crew/reports/poltergeist/ and use "Show the living page" on any plate. These records are regenerated every night at 00:00 UTC by `.github/workflows/midnight-haunt.yml`.
+1. Open https://alex4524.github.io/ghost-crew/reports/poltergeist/ and use "Show the living page" on any plate. These records are regenerated every night shortly after midnight UTC (00:23) by `.github/workflows/midnight-haunt.yml`.
 2. On any machine with Node 20+ and Google Chrome: `npx -y -p github:alex4524/ghost-crew poltergeist https://alex4524.github.io/ghost-crew/demo/haunted/` then open `ghost-reports/poltergeist/index.html`.
 3. `git clone https://github.com/alex4524/ghost-crew && cd ghost-crew && npm install && npm run midnight && npm test` (about 1 minute; 20 tests including both apps end to end).
 
