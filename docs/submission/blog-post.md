@@ -38,7 +38,7 @@ The Skeleton Crew category asks for one foundation and two distinct apps.
   `o'brien+inn@…`, `<img onerror>`, `-3` nights. Each curse gets a fresh page and its own
   photograph.
 
-Each app is about 220 lines. All an app can do is register senses, a theme and a crew.
+Each app is under 300 lines. All an app can do is register senses, a theme and a crew.
 
 ## How Kiro shaped it
 

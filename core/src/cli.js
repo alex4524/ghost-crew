@@ -41,7 +41,7 @@ export function parseArgs(argv) {
 /**
  * Summon ghosts, write the séance record, print a summary.
  * @param {{ ghosts: Ghost[], appName: string, baseUrl?: string, out: string, baseline?: string,
- *   crewSize?: number, failOn?: string, json?: boolean, headed?: boolean, quiet?: boolean,
+ *   crewSize?: number, failOn?: string, json?: boolean, headed?: boolean, quiet?: boolean, wallWaitMs?: number,
  *   publicUrl?: { from: string, to: string } }} o
  */
 export async function haunt(o) {
@@ -66,6 +66,7 @@ export async function haunt(o) {
     crewSize: o.crewSize ?? 4,
     outDir: o.out,
     headless: !o.headed,
+    wallWaitMs: o.wallWaitMs,
     onEvent: (e) => {
       if (e.type !== 'done' || !e.result) return;
       const r = e.result;
@@ -90,7 +91,9 @@ export async function haunt(o) {
   } else if (!quiet) {
     log('');
     const total = report.totals.total;
-    log(`  ${total ? t.bold(`${total} haunting${total === 1 ? '' : 's'}`) : t.teal('The house is quiet')} ${t.dim(`(${(report.ms / 1000).toFixed(1)}s)`)}`);
+    const lost = results.filter((r) => r.state === 'lost').length;
+    const empty = lost ? t.amber(`Nothing haunted, but ${lost} of ${results.length} ghosts got lost`) : t.teal('The house is quiet');
+    log(`  ${total ? t.bold(`${total} haunting${total === 1 ? '' : 's'}`) : empty} ${t.dim(`(${(report.ms / 1000).toFixed(1)}s)`)}`);
     if (report.exorcism) log(`  ${t.teal(`${report.exorcism.exorcised.length} exorcised`)}, ${report.exorcism.fresh} new, ${report.exorcism.still} still haunting since the last séance.`);
     log(`  Séance record: ${t.teal(path.relative(process.cwd(), files.html) || files.html)}`);
     log('');

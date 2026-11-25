@@ -28,3 +28,9 @@
 - [x] 8. MCP server with five tools
   - _Requirements: 6.1–6.3_
 - [x] 9. Tests: parser, diff, crew against both demo houses
+- [x] 10. No false alarms
+  - [x] 10.1 Wait for a bot check to clear, otherwise get lost with the reason
+  - [x] 10.2 A lost crew never reads as quiet (CLI and séance record, five languages)
+  - [x] 10.3 Poltergeist: focus drawn by a nearby element counts; logo text is exempt from contrast
+  - [x] 10.4 Tests with local pages for each case (`core/test/false-alarms.test.js`)
+  - _Requirements: 2.6, 2.7; Poltergeist 2.1, 2.3_

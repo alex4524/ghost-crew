@@ -82,18 +82,23 @@ defineSense('keyboard-reach', {
   },
 });
 
+/** Stops motion and hides the text caret, so two photographs differ only by the focus style. */
+const STILL = '*,*::before,*::after{transition:none!important;animation:none!important;caret-color:transparent!important}';
+
 defineSense('focus-visible', {
-  describe: 'Tabs through the first focusable elements and reports those whose focus is invisible.',
+  describe: 'Tabs through the first focusable elements and reports those whose focus changes nothing on screen.',
   async run(ctx, options) {
     const limit = options.limit ?? 24;
-    await startFromTop(ctx.page);
+    const page = ctx.page;
+    await startFromTop(page);
+    const still = await page.addStyleTag({ content: STILL }).catch(() => null);
     /** @type {string[]} */
     const invisible = [];
     /** @type {string[]} */
     const names = [];
     for (let i = 0; i < limit; i++) {
-      await ctx.page.keyboard.press('Tab');
-      const r = await ctx.page.evaluate(() => {
+      await page.keyboard.press('Tab');
+      const r = await page.evaluate(() => {
         const el = /** @type {HTMLElement | null} */ (document.activeElement);
         if (!el || el === document.body) return null;
         const snap = () => {
@@ -109,27 +114,53 @@ defineSense('focus-visible', {
         el.dataset.ghostCrewSeen = '1';
         const name = (el.getAttribute('aria-label') || el.innerText || el.getAttribute('placeholder') || el.tagName).trim().slice(0, 40);
         const id = `gc-focus-${Math.random().toString(36).slice(2, 8)}`;
-        if (focused === resting) el.setAttribute('data-ghost-crew-invisible', id);
-        return { again: false, invisible: focused === resting, id, name };
+        el.setAttribute('data-ghost-crew-focus', id);
+        if (focused !== resting) return { again: false, id, name, clip: null };
+        // Its own style did not change. Many sites draw focus on a nearby element instead
+        // (an underline, a halo), so measure the area around it for a photograph.
+        const small = el.getBoundingClientRect();
+        const box = small.width < 4 || small.height < 4 ? (/** @type {HTMLInputElement} */ (el).labels?.[0] ?? el.parentElement ?? el) : el;
+        box.scrollIntoView({ block: 'center', inline: 'nearest' });
+        const b = box.getBoundingClientRect();
+        const x = Math.max(0, b.left - 8), y = Math.max(0, b.top - 8);
+        return { again: false, id, name, clip: { x, y, width: Math.min(innerWidth, b.right + 8) - x, height: Math.min(innerHeight, b.bottom + 8) - y } };
       });
       if (!r) continue;
       if (r.again) break;
-      if (r.invisible) { invisible.push(`[data-ghost-crew-invisible="${r.id}"]`); names.push(r.name); }
+      if (r.clip && !(await changesOnScreen(page, `[data-ghost-crew-focus="${r.id}"]`, r.clip))) {
+        invisible.push(`[data-ghost-crew-focus="${r.id}"]`);
+        names.push(r.name);
+      }
     }
     if (invisible.length) {
       await ctx.haunt({
         mood: 'restless',
         key: 'focus-invisible',
         title: `Keyboard focus is invisible on ${invisible.length} element${invisible.length === 1 ? '' : 's'}`,
-        detail: `No outline, shadow, border or colour change when focused: ${names.map((n) => `"${n}"`).join(', ')}.`,
+        detail: `Nothing on screen changes when they take focus, on them or around them: ${names.map((n) => `"${n}"`).join(', ')}.`,
         help: 'Never remove the focus outline without adding another visible style for :focus-visible.',
         helpUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/focus-visible.html',
         selectors: invisible,
       });
     }
-    await ctx.page.evaluate(() => document.querySelectorAll('[data-ghost-crew-seen],[data-ghost-crew-invisible]').forEach((e) => {
+    await still?.evaluate((e) => e.remove()).catch(() => {});
+    await page.evaluate(() => document.querySelectorAll('[data-ghost-crew-seen],[data-ghost-crew-focus]').forEach((e) => {
       e.removeAttribute('data-ghost-crew-seen');
-      e.removeAttribute('data-ghost-crew-invisible');
+      e.removeAttribute('data-ghost-crew-focus');
     }));
   },
 });
+
+/**
+ * Photograph the area around the focused element, blur it, photograph again and give focus back.
+ * @param {import('playwright-core').Page} page @param {string} sel
+ * @param {{ x: number, y: number, width: number, height: number }} clip
+ */
+async function changesOnScreen(page, sel, clip) {
+  if (clip.width < 1 || clip.height < 1) return false;
+  const focused = await page.screenshot({ clip });
+  await page.evaluate((s) => /** @type {HTMLElement | null} */ (document.querySelector(s))?.blur(), sel);
+  const resting = await page.screenshot({ clip });
+  await page.evaluate((s) => /** @type {HTMLElement | null} */ (document.querySelector(s))?.focus(), sel);
+  return !focused.equals(resting);
+}

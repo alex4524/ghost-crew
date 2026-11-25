@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><title>Logo text and faint text</title>
+<style>
+  body { font: 16px/1.5 system-ui, sans-serif; margin: 40px; color: #1d2320; background: #fff; }
+  .product { color: #8f8f8f; text-decoration: none; }
+  .faint { color: #a3a3a3; }
+</style>
+</head>
+<body>
+  <header>
+    <!-- Not a haunting: WCAG exempts text that is part of a logo. -->
+    <a class="product" href="#top"><img src="acme-logo.svg" alt="Acme" width="24" height="24"> Forms</a>
+  </header>
+  <main>
+    <h1>Opening hours</h1>
+    <!-- planted: body text too faint to read -->
+    <p class="faint">The front desk closes at midnight.</p>
+  </main>
+</body>
+</html>

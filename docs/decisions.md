@@ -2,6 +2,24 @@
 
 Short records of choices that shape the code. Newest first.
 
+## No false alarms
+
+A haunting is a claim about the site, so three cases that are not the site's fault stay out
+of the record:
+
+- **Bot checks.** A Cloudflare challenge, or a DataDome or HUMAN captcha, can stand in front
+  of the page. The runner spots one by the `cf-mitigated: challenge` header or the
+  challenge's own markers, waits up to 8 seconds for it to let the browser through, and
+  otherwise marks the ghost `lost` with the reason. The crew never tries to get past a bot
+  check by itself. A lost crew is reported as lost, never as a quiet house.
+- **Focus drawn nearby.** Many component libraries remove the outline and draw focus with
+  a sibling: an underline that thickens, a halo behind a check box. When an element's own
+  style does not change, `focus-visible` photographs the area 8 px around it focused and
+  blurred, with motion and the text caret turned off, and only reports it if both
+  photographs are identical.
+- **Logo text.** WCAG 1.4.3 exempts logotypes. `axe` drops `color-contrast` nodes of 40
+  characters or fewer that sit next to an image or class named logo or wordmark.
+
 ## Five languages, English in the HTML
 
 The landing page, both demo inns and the séance records switch between English, 简体中文,

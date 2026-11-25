@@ -20,10 +20,13 @@ at a URL, so that I get a useful report in one command.
 
 1. `axe` SHALL run axe-core in the page and report one haunting per rule, with a box for
    every failing node, mood mapped from axe impact, and the rule's help URL.
+   `color-contrast` SHALL skip text that is part of a logo (WCAG 1.4.3 exempts logotypes).
 2. `keyboard-reach` SHALL press Tab up to `limit` times (default 60) and report every
    target that never receives focus.
 3. `focus-visible` SHALL focus each of the first `limit` focusable elements and report
-   the ones whose outline, box-shadow and border do not change on focus.
+   the ones where nothing on screen changes: not their own outline, box-shadow, border or
+   colours, and not the pixels within 8 px around them (an underline or halo drawn by a
+   nearby element is a visible focus).
 
 ## Requirement 3: theme
 

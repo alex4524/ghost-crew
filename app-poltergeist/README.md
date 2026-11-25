@@ -12,9 +12,9 @@ npx -y -p github:alex4524/ghost-crew poltergeist https://your.app
 | File | Adds |
 |---|---|
 | `app.js` | `defineApp()`: name, theme, and the zero-config crew of 3 ghosts |
-| `senses/axe.js` | `axe`: runs axe-core in the page; one haunting per WCAG rule, a circle on every failing element |
+| `senses/axe.js` | `axe`: runs axe-core in the page; one haunting per WCAG rule, a circle on every failing element. Contrast on logo text is skipped, as WCAG allows |
 | `senses/keyboard.js` | `keyboard-reach`: tabs through the page; reports named targets the keyboard never reaches, or, with no targets, anything that looks clickable but cannot take focus |
-| `senses/keyboard.js` | `focus-visible`: reports focusable elements whose outline, shadow, border and colours do not change on focus |
+| `senses/keyboard.js` | `focus-visible`: reports focusable elements where nothing on screen changes on focus, on the element or 8 px around it (so an underline or halo drawn by a nearby element counts) |
 | `ghosts/hollow-pines/` | 5 ghosts for the demo inn |
 | `bin/poltergeist.js` | the command line, 3 lines long |
 

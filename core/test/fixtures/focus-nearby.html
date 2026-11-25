@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><title>Focus drawn by a nearby element</title>
+<style>
+  body { font: 16px/1.5 system-ui, sans-serif; margin: 40px; color: #1d2320; background: #fff; }
+  /* An underline field: the input has no outline, a sibling line thickens and changes colour. */
+  .field { margin-top: 1100px; width: 320px; }
+  .field input { border: 0; outline: none; font: inherit; width: 100%; padding: 4px 0; background: #fff; }
+  .field .line { height: 1px; background: #c4c9c6; transition: background .3s, height .3s; }
+  .field input:focus + .line { height: 3px; background: #4a32c8; }
+  /* A custom check box: the real input is visually hidden, its box gets a halo. */
+  .check { display: inline-flex; gap: 8px; align-items: center; margin-top: 24px; }
+  .check input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+  .check .box { width: 18px; height: 18px; border: 2px solid #5d655f; border-radius: 3px; }
+  .check input:focus-visible + .box { box-shadow: 0 0 0 8px #ddd6ff; }
+  /* planted: a button whose focus changes nothing anywhere */
+  .send { display: block; margin-top: 24px; font: inherit; padding: 6px 14px; border: 1px solid #1d2320; background: #fff; color: #1d2320; }
+  .send:focus { outline: none; }
+</style>
+</head>
+<body>
+  <main>
+    <h1>Book a quiet room</h1>
+    <div class="field"><input aria-label="Your name" placeholder="Your name"><div class="line"></div></div>
+    <label class="check"><input type="checkbox"><span class="box"></span> I agree</label>
+    <button class="send" type="button">Send</button>
+  </main>
+</body>
+</html>

@@ -15,7 +15,7 @@ import { photograph } from './photograph.js';
  * @typedef {import('playwright-core').Locator} Locator
  * @typedef {{ consoleErrors: string[], pageErrors: string[], failedRequests: string[] }} Events
  * @typedef {{ page: Page, events: Events, scene: Scene, id: string }} SceneRun
- * @typedef {{ ghost: Ghost, result: GhostResult, context: import('playwright-core').BrowserContext, outDir: string, id0: string, sceneCount: number }} GhostRun
+ * @typedef {{ ghost: Ghost, result: GhostResult, context: import('playwright-core').BrowserContext, outDir: string, id0: string, sceneCount: number, wallWaitMs: number }} GhostRun
  */
 
 const DEVICES = {
@@ -28,17 +28,20 @@ const DEVICES = {
   },
 };
 
+/** How long a ghost waits for a bot check to let it through before it gives up. */
+const WALL_WAIT_MS = 8000;
+
 const KEY_NAMES = /^(Tab|Enter|Escape|Space|Backspace|Delete|Home|End|PageUp|PageDown|Arrow(Up|Down|Left|Right)|Shift\+Tab|F\d{1,2})$/;
 
 /**
  * Summon a crew: one Chrome, one isolated context per ghost, `crewSize` at a time.
  * @param {Ghost[]} ghosts
- * @param {{ baseUrl?: string, crewSize?: number, outDir: string, headless?: boolean,
+ * @param {{ baseUrl?: string, crewSize?: number, outDir: string, headless?: boolean, wallWaitMs?: number,
  *   onEvent?: (e: { type: 'start' | 'done', index: number, ghost: Ghost, result?: GhostResult }) => void }} opts
  * @returns {Promise<GhostResult[]>}
  */
 export async function summon(ghosts, opts) {
-  const { baseUrl, crewSize = 4, outDir, headless = true, onEvent = () => {} } = opts;
+  const { baseUrl, crewSize = 4, outDir, headless = true, wallWaitMs = WALL_WAIT_MS, onEvent = () => {} } = opts;
   const browser = await launchChrome({ headless });
   /** @type {GhostResult[]} */
   const results = new Array(ghosts.length);
@@ -48,7 +51,7 @@ export async function summon(ghosts, opts) {
       const index = next++;
       const ghost = ghosts[index];
       onEvent({ type: 'start', index, ghost });
-      const result = await walkGhost(browser, ghost, index, { baseUrl, outDir });
+      const result = await walkGhost(browser, ghost, index, { baseUrl, outDir, wallWaitMs });
       results[index] = result;
       onEvent({ type: 'done', index, ghost, result });
     }
@@ -65,10 +68,10 @@ export async function summon(ghosts, opts) {
  * @param {import('playwright-core').Browser} browser
  * @param {Ghost} ghost
  * @param {number} index
- * @param {{ baseUrl?: string, outDir: string }} opts
+ * @param {{ baseUrl?: string, outDir: string, wallWaitMs: number }} opts
  * @returns {Promise<GhostResult>}
  */
-async function walkGhost(browser, ghost, index, { baseUrl, outDir }) {
+async function walkGhost(browser, ghost, index, { baseUrl, outDir, wallWaitMs }) {
   const t0 = Date.now();
   /** @type {GhostResult} */
   const result = {
@@ -81,7 +84,7 @@ async function walkGhost(browser, ghost, index, { baseUrl, outDir }) {
     result.url = resolveHaunt(ghost.haunts, baseUrl);
     context = await browser.newContext({ ...DEVICES[ghost.device], deviceScaleFactor: 1, reducedMotion: 'reduce', colorScheme: 'light' });
     /** @type {GhostRun} */
-    const run = { ghost, result, context, outDir, id0: `${String(index + 1).padStart(2, '0')}-${slug(ghost.name)}`, sceneCount: 0 };
+    const run = { ghost, result, context, outDir, id0: `${String(index + 1).padStart(2, '0')}-${slug(ghost.name)}`, sceneCount: 0, wallWaitMs };
     const main = await openScene(run, 'The walk');
     let walked = true;
     try {
@@ -133,9 +136,47 @@ async function openScene(run, label) {
   const scene = { label, url: run.result.url, hauntings: [] };
   run.result.scenes.push(scene);
   const id = `${run.id0}-${++run.sceneCount}`;
-  await page.goto(run.result.url, { waitUntil: 'load', timeout: 30000 });
+  const response = await page.goto(run.result.url, { waitUntil: 'load', timeout: 30000 });
+  await passWall(page, response, run.wallWaitMs);
   await page.waitForLoadState('networkidle', { timeout: 2500 }).catch(() => {});
   return { page, events, scene, id };
+}
+
+/**
+ * A bot check (a Cloudflare challenge, a DataDome or HUMAN captcha) stands in front of the
+ * page. Haunting it would report its bugs as the site's, so the ghost waits for it to let
+ * the browser through, and otherwise gets lost with the reason.
+ * @param {Page} page @param {import('playwright-core').Response | null} response @param {number} waitMs
+ */
+async function passWall(page, response, waitMs) {
+  let wall = await findWall(page, response);
+  const deadline = Date.now() + waitMs;
+  while (wall && Date.now() < deadline) {
+    const moved = await page.waitForEvent('framenavigated', { predicate: (f) => f === page.mainFrame(), timeout: deadline - Date.now() })
+      .then(() => true, () => false);
+    if (!moved) break;
+    await page.waitForLoadState('load', { timeout: 5000 }).catch(() => {});
+    wall = await findWall(page, null);
+  }
+  if (wall) {
+    throw new Error(`Stopped at a ${wall.provider} bot check (${wall.sign}), not the page itself, so nothing was haunted. Haunt a site you own, or let the crew through its bot check.`);
+  }
+}
+
+/**
+ * @param {Page} page @param {import('playwright-core').Response | null} response
+ * @returns {Promise<{ provider: string, sign: string } | null>}
+ */
+async function findWall(page, response) {
+  if (response && (await response.headerValue('cf-mitigated').catch(() => null)) === 'challenge') {
+    return { provider: 'Cloudflare', sign: 'cf-mitigated: challenge' };
+  }
+  return page.evaluate(() => {
+    if (/** @type {any} */ (window)._cf_chl_opt) return { provider: 'Cloudflare', sign: 'challenge script' };
+    if (document.querySelector('#px-captcha')) return { provider: 'HUMAN', sign: 'px-captcha' };
+    if (document.querySelector('iframe[src*="captcha-delivery.com"]')) return { provider: 'DataDome', sign: 'captcha frame' };
+    return null;
+  }).catch(() => null);
 }
 
 /** @param {GhostRun} run @param {SceneRun} sc */

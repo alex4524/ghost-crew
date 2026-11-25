@@ -65,8 +65,12 @@ export function renderReportHtml(r) {
   const moodKey = (/** @type {string} */ m) => `mood${m[0].toUpperCase()}${m.slice(1)}`;
   let plate = 0;
 
-  const verdictTitle = total === 0 ? dicts.en.quiet : fill(dicts.en[total === 1 ? 'countOne' : 'countMany'], { n: String(total) });
-  const verdict = total === 0 ? T('h2', 'quiet', {}, ' id="verdict-h" class="count"') : T('h2', total === 1 ? 'countOne' : 'countMany', { n: String(total) }, ' id="verdict-h" class="count"');
+  // A crew that got lost (a bot check, a dead server) checked nothing, so it must not read as quiet.
+  const lost = { n: String(r.crew.filter((g) => g.state === 'lost').length), m: String(r.crew.length) };
+  const emptyKey = lost.n === '0' ? 'quiet' : 'lostVerdict';
+  const emptyVars = lost.n === '0' ? {} : lost;
+  const verdictTitle = total === 0 ? fill(dicts.en[emptyKey], emptyVars) : fill(dicts.en[total === 1 ? 'countOne' : 'countMany'], { n: String(total) });
+  const verdict = total === 0 ? T('h2', emptyKey, emptyVars, ' id="verdict-h" class="count"') : T('h2', total === 1 ? 'countOne' : 'countMany', { n: String(total) }, ' id="verdict-h" class="count"');
   const exo = r.exorcism;
   const exoLine = exo
     ? T('p', 'exoLine', { date: esc(new Date(exo.baselineAt).toUTCString().slice(5, 16)), x: String(exo.exorcised.length), fresh: String(exo.fresh), still: String(exo.still) }, ' class="exo"')
@@ -167,7 +171,7 @@ export function renderReportHtml(r) {
 
   <section class="verdict" aria-labelledby="verdict-h">
     ${verdict}
-    ${total ? `<ul class="moods">${MOODS.map((m) => `<li class="${m}${r.totals[m] ? '' : ' none'}"><span class="seal ${m}" aria-hidden="true">${r.totals[m]}</span><span>${T('span', moodKey(m), {}, ` class="mood-word ${m}"`)}</span><span class="visually-hidden">: ${r.totals[m]}</span></li>`).join('')}</ul>` : T('p', 'nothingToShow', {}, ' class="exo"')}
+    ${total ? `<ul class="moods">${MOODS.map((m) => `<li class="${m}${r.totals[m] ? '' : ' none'}"><span class="seal ${m}" aria-hidden="true">${r.totals[m]}</span><span>${T('span', moodKey(m), {}, ` class="mood-word ${m}"`)}</span><span class="visually-hidden">: ${r.totals[m]}</span></li>`).join('')}</ul>` : lost.n === '0' ? T('p', 'nothingToShow', {}, ' class="exo"') : ''}
     ${exoLine}
     <nav class="ledger" aria-label="${esc(dicts.en.ledgerLabel)}" data-i18n-attr="aria-label:ledgerLabel"><ol>${ledger}</ol></nav>
   </section>

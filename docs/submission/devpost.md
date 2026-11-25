@@ -42,7 +42,7 @@ No login is needed. Three ways to test, fastest first:
 
 1. Open https://alex4524.github.io/ghost-crew/reports/poltergeist/ and use "Show the living page" on any plate. These records are regenerated every night shortly after midnight UTC (00:23) by `.github/workflows/midnight-haunt.yml`.
 2. On any machine with Node 20+ and Google Chrome: `npx -y -p github:alex4524/ghost-crew poltergeist https://alex4524.github.io/ghost-crew/demo/haunted/` then open `ghost-reports/poltergeist/index.html`.
-3. `git clone https://github.com/alex4524/ghost-crew && cd ghost-crew && npm install && npm run midnight && npm test` (about 1 minute; 20 tests including both apps end to end).
+3. `git clone https://github.com/alex4524/ghost-crew && cd ghost-crew && npm install && npm run midnight && npm test` (about 2 minutes; 32 tests including both apps end to end).
 
 ---
 
@@ -77,7 +77,7 @@ The whole project was built in **Kiro Crew**, spec first:
 
 Kiro Crew also reviewed its own output. It ran the crew against the demo again and again, opened the spirit photographs, and fixed what it saw: the first Phantom Form photographs showed the top of the page while the haunting sat lower down, so the photographer now also saves a crop around the evidence. When it measured the design tokens, one link colour was 4.49:1, just under WCAG AA, so it darkened the token and added `scripts/contrast.mjs` to CI.
 
-Stack: Node 20 ESM with no build step, `playwright-core` driving the Chrome already installed (no browser download), axe-core, the MCP SDK, YAML. The core is 18 files; each app is about 220 lines.
+Stack: Node 20 ESM with no build step, `playwright-core` driving the Chrome already installed (no browser download), axe-core, the MCP SDK, YAML. The core is 18 files; each app is under 300 lines.
 
 ### Challenges we ran into
 

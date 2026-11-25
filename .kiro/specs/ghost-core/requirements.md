@@ -36,6 +36,11 @@ that a full patrol takes seconds, not minutes.
    photograph, and continue with the rest of the crew.
 5. WHEN the run ends THE SYSTEM SHALL exit with code 1 if any haunting is at or above
    `--fail-on` severity (default `restless`), and 0 otherwise.
+6. IF the page answers with a bot check (a Cloudflare challenge, a DataDome or HUMAN
+   captcha) THEN THE SYSTEM SHALL wait up to 8 seconds for it to let the browser through,
+   and otherwise mark the ghost `lost` with the reason instead of running its senses.
+7. WHEN no haunting was found but a ghost got lost THE SYSTEM SHALL say so in the CLI
+   summary and the séance record, instead of calling the house quiet.
 
 ## Requirement 3: senses are plugins
 
