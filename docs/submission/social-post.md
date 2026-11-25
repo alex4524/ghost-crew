@@ -8,6 +8,8 @@ submission period (before 2026-12-04 14:00 PT).
 
 Posted on X on 2026-11-25: https://x.com/cooper9999cy/status/2125474262324850848
 
+Blog posted on dev.to on 2026-11-25: https://dev.to/alex4524/every-web-app-is-haunted-building-ghost-crew-with-kiro-for-kiroween-hackathon-2026-4j4c
+
 #KiroweenHackathon26 My favourite thing about Kiro: steering files. I wrote the vocabulary and the ghost file shape before any code, and every ghost Kiro generated parsed first try. Ghost Crew photographs your web app's bugs: https://alex4524.github.io/ghost-crew/
 
 ## Video YouTube title and description
