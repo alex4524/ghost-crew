@@ -24,3 +24,11 @@ both, and the tests require hauntings on the first and none on the second.
 
 The guest name field also has only a placeholder and no label. axe accepts a placeholder
 as a name, so no ghost reports it; the exorcised edition adds a label anyway.
+
+## Languages
+
+Both editions have a language menu (English, 简体中文, 繁體中文, हिन्दी, தமிழ்). The menu is
+not a planted bug: it is labelled and reachable by keyboard. The haunted edition keeps its
+missing `lang` attribute in every language. Ghosts always see English, because each ghost
+starts in a fresh browser with no stored choice. Translations live in
+`shared/i18n-inn.js`; `shared/i18n.js` is a copy of `core/src/i18n/runtime.browser.js`.

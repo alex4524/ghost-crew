@@ -12,6 +12,7 @@ core/                 the skeleton (engine, built-in senses, report, CLI, MCP)
   src/runner.js       launch Chrome, walk steps, run senses, take photographs
   src/senses/         built-in senses every app gets
   src/report/         séance record (JSON + HTML) and exorcism diff
+  src/i18n/           page language switcher (browser script, copied to demo/shared/)
   src/mcp.js          MCP server exposing the crew to Kiro
 app-poltergeist/      app 1: accessibility hauntings
 app-phantom-form/     app 2: cursed form inputs

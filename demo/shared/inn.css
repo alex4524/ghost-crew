@@ -7,7 +7,9 @@ h1, h2, h3 { font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Geor
 a { color: var(--pine); }
 .notice { display: flex; align-items: center; justify-content: center; gap: 1rem; padding: .55rem 1rem; background: var(--pine-deep); color: #F4F1E8; font-size: .92rem; }
 .notice button { background: none; border: 0; color: inherit; cursor: pointer; padding: 4px; line-height: 0; }
-.site { display: flex; align-items: center; justify-content: space-between; gap: 1rem; max-width: 1120px; margin: 0 auto; padding: 1.1rem 1.5rem; }
+.site { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .8rem 1.4rem; max-width: 1120px; margin: 0 auto; padding: 1.1rem 1.5rem; }
+.site nav { margin-left: auto; }
+.lang-select { width: auto; font-size: .9rem; padding: .35rem .7rem; border-radius: 999px; cursor: pointer; }
 .logo { display: flex; align-items: center; gap: .6rem; font-family: "Iowan Old Style", Georgia, serif; font-size: 1.35rem; font-weight: 600; color: var(--ink); text-decoration: none; }
 .logo svg { width: 30px; height: 30px; }
 .site nav { display: flex; gap: 1.4rem; flex-wrap: wrap; }
@@ -38,3 +40,9 @@ form button { font: inherit; font-weight: 700; padding: .8rem 1rem; border: 0; b
 .stub { font-family: "Courier New", monospace; font-size: .85rem; opacity: .9; }
 footer { max-width: 1120px; margin: 3rem auto 0; padding: 2rem 1.5rem 3rem; color: var(--muted); border-top: 1px solid var(--line); }
 @media (max-width: 760px) { .booking { grid-template-columns: 1fr; } .hero-copy { padding: 1.5rem; } }
+
+/* Script fonts for the translated inn; Latin text keeps the stacks above. */
+html[data-lang="zh-CN"] body, html[data-lang="zh-CN"] h1, html[data-lang="zh-CN"] h2, html[data-lang="zh-CN"] h3 { font-family: "Avenir Next", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; }
+html[data-lang="zh-TW"] body, html[data-lang="zh-TW"] h1, html[data-lang="zh-TW"] h2, html[data-lang="zh-TW"] h3 { font-family: "Avenir Next", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif; }
+html[data-lang="hi"] body, html[data-lang="hi"] h1, html[data-lang="hi"] h2, html[data-lang="hi"] h3 { font-family: "Avenir Next", "Noto Sans Devanagari", "Kohinoor Devanagari", sans-serif; line-height: 1.7; }
+html[data-lang="ta"] body, html[data-lang="ta"] h1, html[data-lang="ta"] h2, html[data-lang="ta"] h3 { font-family: "Avenir Next", "Noto Sans Tamil", "Tamil Sangam MN", sans-serif; line-height: 1.7; }

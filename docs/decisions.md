@@ -2,6 +2,29 @@
 
 Short records of choices that shape the code. Newest first.
 
+## Five languages, English in the HTML
+
+The landing page, both demo inns and the séance records switch between English, 简体中文,
+繁體中文, हिन्दी and தமிழ். English is written in the HTML, and a small browser script
+(`core/src/i18n/runtime.browser.js`, copied verbatim to `demo/shared/i18n.js`) swaps in
+the other languages from per-page dictionaries. This keeps three properties:
+
+- every page reads correctly with JavaScript off;
+- a ghost, which starts in a fresh browser with no stored choice, always walks the English
+  page, so findings and planted bugs do not change with the reader's language;
+- no new dependency. Script fonts (Noto) load only when someone picks that language.
+
+Hauntings stay in the words their sense wrote. Translating them would mean translating axe
+rule descriptions and every sense's message, and the evidence would no longer match the
+English report the CLI prints.
+
+## Records link to the public demo
+
+The nightly patrol walks `demo/` served on 127.0.0.1 from the same commit, so the records
+always match the code. `buildReport({ publicUrl })` rewrites those addresses to the
+GitHub Pages copy of the same files, so every link in a published record opens.
+
+
 ## Apps are found by folder convention
 
 `core/src/apps.js` imports every `app-*/app.js` at start. The alternative, core importing

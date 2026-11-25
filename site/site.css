@@ -115,3 +115,18 @@ pre .c { color: #8C8798; font-style: italic; }
   .parts tr { display: grid; padding: 10px 0; border-bottom: 1px solid var(--rule); }
   .parts th, .parts td { border: 0; padding: 2px 0; }
 }
+
+/* Language picker and script fonts. Latin text keeps Atkinson and IM Fell; other scripts
+   fall back to Noto, which the i18n runtime fetches only when that language is picked. */
+.top nav { align-items: center; }
+.lang-select { font: inherit; font-size: .9rem; font-weight: 700; color: var(--ink); background: var(--paper); border: 1.5px solid var(--ink); border-radius: 999px; padding: 5px 12px; cursor: pointer; }
+html[data-lang="zh-CN"] { --display: 'IM Fell English', 'Noto Serif SC', 'Songti SC', serif; --body: 'Atkinson Hyperlegible', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+html[data-lang="zh-TW"] { --display: 'IM Fell English', 'Noto Serif TC', 'Songti TC', serif; --body: 'Atkinson Hyperlegible', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif; }
+html[data-lang="hi"] { --display: 'IM Fell English', 'Noto Serif Devanagari', 'Kohinoor Devanagari', serif; --body: 'Atkinson Hyperlegible', 'Noto Sans Devanagari', 'Kohinoor Devanagari', sans-serif; }
+html[data-lang="ta"] { --display: 'IM Fell English', 'Noto Serif Tamil', 'Tamil Sangam MN', serif; --body: 'Atkinson Hyperlegible', 'Noto Sans Tamil', 'Tamil Sangam MN', sans-serif; }
+html[data-lang="hi"], html[data-lang="ta"] { line-height: 1.75; }
+html[data-lang]:not([data-lang="en"]) .pair .tag, html[data-lang]:not([data-lang="en"]) .cabinet figcaption { font-style: normal; }
+html[data-lang="hi"] .hero h1 { font-size: clamp(2.4rem, 4.4vw, 4rem); line-height: 1.15; }
+html[data-lang="ta"] .hero h1 { font-size: clamp(2rem, 3.3vw, 3rem); line-height: 1.25; }
+html[data-lang="ta"] .hero h1 span, html[data-lang="hi"] .hero h1 span { white-space: normal; }
+html[data-lang="ta"] .section-head h2 { font-size: clamp(1.9rem, 3.6vw, 2.8rem); line-height: 1.2; }

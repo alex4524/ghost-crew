@@ -89,6 +89,7 @@
  * @property {string} name        shown as the report title
  * @property {string} tagline
  * @property {string} [tallyLabel] how to read ghost tallies, e.g. "curses survived"
+ * @property {Record<string, { tagline?: string, tallyLabel?: string }>} [i18n]  tagline and tally wording per language code
  *
  * @typedef {Object} AppDef
  * @property {string} name

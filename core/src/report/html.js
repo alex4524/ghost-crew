@@ -1,10 +1,13 @@
 // @ts-check
+import fs from 'node:fs';
 import { MOODS } from './model.js';
+import { REPORT_STRINGS } from './i18n.js';
+
+const I18N_RUNTIME = fs.readFileSync(new URL('../i18n/runtime.browser.js', import.meta.url), 'utf8').replace(/<\/script/gi, '<\\/script');
 
 /** @typedef {import('./model.js').Report} Report */
 
 const esc = (/** @type {unknown} */ s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c] ?? c);
-const plural = (/** @type {number} */ n, /** @type {string} */ one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 
 export const GHOST_MARK = `<svg class="mark-ghost" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M16 3C9.9 3 6 7.6 6 13.6V28.5l3.4-2.5 3.3 2.5 3.3-2.5 3.3 2.5 3.3-2.5 3.4 2.5V13.6C26 7.6 22.1 3 16 3z" fill="currentColor"/><ellipse cx="12.4" cy="14.2" rx="1.7" ry="2.3" fill="#D8D9D4"/><ellipse cx="19.6" cy="14.2" rx="1.7" ry="2.3" fill="#D8D9D4"/></svg>`;
 
@@ -35,6 +38,12 @@ background:radial-gradient(circle at 34% 30%,rgba(255,255,255,.28),transparent 4
 .wrathful{--c:var(--wax)}.restless{--c:var(--amber)}.mischievous{--c:var(--verdigris)}.faint{--c:var(--tarnish)}
 .mood-word{color:var(--c)}
 .visually-hidden{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+html[data-lang="zh-CN"]{--display:'IM Fell English','Noto Serif SC','Songti SC',serif;--body:'Atkinson Hyperlegible','Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif}
+html[data-lang="zh-TW"]{--display:'IM Fell English','Noto Serif TC','Songti TC',serif;--body:'Atkinson Hyperlegible','Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif}
+html[data-lang="hi"]{--display:'IM Fell English','Noto Serif Devanagari','Kohinoor Devanagari',serif;--body:'Atkinson Hyperlegible','Noto Sans Devanagari','Kohinoor Devanagari',sans-serif}
+html[data-lang="ta"]{--display:'IM Fell English','Noto Serif Tamil','Tamil Sangam MN',serif;--body:'Atkinson Hyperlegible','Noto Sans Tamil','Tamil Sangam MN',sans-serif}
+html[data-lang="hi"],html[data-lang="ta"]{line-height:1.75}
+html[data-lang]:not([data-lang="en"]) .tagline{font-style:normal}
 `;
 
 /** @param {Report} r */
@@ -44,35 +53,46 @@ export function renderReportHtml(r) {
   const total = r.totals.total;
   const ghostsHaunted = r.crew.filter((g) => g.state !== 'quiet');
   const ghostsQuiet = r.crew.filter((g) => g.state === 'quiet');
+  const dicts = reportDictionaries(r.theme);
+  /** English now, the reader's language in the browser. `vars` values are already HTML. */
+  const T = (/** @type {string} */ tag, /** @type {string} */ key, /** @type {Record<string, string>} */ vars = {}, extra = '') => {
+    const v = Object.keys(vars).length ? ` data-i18n-vars="${esc(JSON.stringify(vars))}"` : '';
+    return `<${tag}${extra} data-i18n="${key}"${v}>${fill(dicts.en[key], vars)}</${tag}>`;
+  };
+  const tally = (/** @type {import('../types.js').GhostResult} */ g) => ({ survived: String(g.tally.survived ?? 0), cast: String(g.tally.cast ?? 0) });
+  const hasTally = (/** @type {import('../types.js').GhostResult} */ g) => Object.keys(g.tally).length > 0 && Boolean(r.theme.tallyLabel);
+  const link = (/** @type {string} */ u) => `<a href="${esc(u)}">${esc(shortPath(u))}</a>`;
+  const moodKey = (/** @type {string} */ m) => `mood${m[0].toUpperCase()}${m.slice(1)}`;
   let plate = 0;
 
-  const verdictTitle = total === 0 ? 'The house is quiet.' : plural(total, 'haunting');
+  const verdictTitle = total === 0 ? dicts.en.quiet : fill(dicts.en[total === 1 ? 'countOne' : 'countMany'], { n: String(total) });
+  const verdict = total === 0 ? T('h2', 'quiet', {}, ' id="verdict-h" class="count"') : T('h2', total === 1 ? 'countOne' : 'countMany', { n: String(total) }, ' id="verdict-h" class="count"');
   const exo = r.exorcism;
   const exoLine = exo
-    ? `<p class="exo">Compared with the séance of ${esc(new Date(exo.baselineAt).toUTCString().slice(5, 16))}: <strong>${exo.exorcised.length} exorcised</strong>, ${exo.fresh} new, ${exo.still} still haunting.</p>`
+    ? T('p', 'exoLine', { date: esc(new Date(exo.baselineAt).toUTCString().slice(5, 16)), x: String(exo.exorcised.length), fresh: String(exo.fresh), still: String(exo.still) }, ' class="exo"')
     : '';
 
   const ledger = r.crew.map((g, i) => {
     const n = g.scenes.reduce((a, s) => a + s.hauntings.length, 0);
-    const state = g.state === 'lost' ? 'lost' : n ? plural(n, 'haunting') : 'found nothing';
-    return `<li><a href="#ghost-${i + 1}">${esc(g.ghost)}</a> <span class="ledger-state">${esc(state)}</span></li>`;
+    const state = g.state === 'lost' ? T('span', 'stateLost', {}, ' class="ledger-state"')
+      : n ? T('span', n === 1 ? 'countOne' : 'countMany', { n: String(n) }, ' class="ledger-state"') : T('span', 'stateNothing', {}, ' class="ledger-state"');
+    return `<li><a href="#ghost-${i + 1}">${esc(g.ghost)}</a> ${state}</li>`;
   }).join('');
 
   const articles = ghostsHaunted.map((g) => {
     const i = r.crew.indexOf(g) + 1;
-    const tallyLine = Object.keys(g.tally).length && r.theme.tallyLabel
-      ? `<p class="tally">${esc(r.theme.tallyLabel.replace('{survived}', String(g.tally.survived ?? 0)).replace('{cast}', String(g.tally.cast ?? 0)))}</p>` : '';
+    const tallyLine = hasTally(g) ? T('p', 'appTally', tally(g), ' class="tally"') : '';
     const scenes = g.scenes.filter((s) => s.hauntings.length).map((s) => {
       plate += 1;
       const list = s.hauntings.map((h) => `
         <li class="haunting ${h.mood}">
           <span class="seal ${h.mood}" aria-hidden="true">${h.n}</span>
           <div>
-            <p class="h-title"><span class="visually-hidden">Seal ${h.n}: </span>${esc(h.title)}</p>
-            <p class="h-meta"><span class="mood-word ${h.mood}">${esc(h.mood)}</span>${h.status ? ` <span class="status status-${h.status}">${h.status === 'new' ? 'new tonight' : 'still haunting'}</span>` : ''}</p>
+            <p class="h-title">${T('span', 'sealPrefix', { n: String(h.n) }, ' class="visually-hidden"')}${esc(h.title)}</p>
+            <p class="h-meta">${T('span', moodKey(h.mood), {}, ` class="mood-word ${h.mood}"`)}${h.status ? ` ${T('span', h.status === 'new' ? 'statusNew' : 'statusStill', {}, ` class="status status-${h.status}"`)}` : ''}</p>
             ${h.detail ? `<p class="h-detail">${esc(h.detail)}</p>` : ''}
             ${h.help ? `<p class="h-help">${esc(h.help)}</p>` : ''}
-            ${h.helpUrl ? `<p class="h-link"><a href="${esc(h.helpUrl)}" rel="noopener">How to exorcise it</a></p>` : ''}
+            ${h.helpUrl ? `<p class="h-link">${T('a', 'howTo', {}, ` href="${esc(h.helpUrl)}" rel="noopener"`)}</p>` : ''}
           </div>
         </li>`).join('');
       const shownSpirit = s.spiritDetail ?? s.spirit;
@@ -80,22 +100,23 @@ export function renderReportHtml(r) {
       const photo = s.spirit
         ? `<figure class="plate">
             <div class="print${s.spiritDetail ? ' detail' : ''}" tabindex="0" role="group" aria-label="Spirit photograph, plate ${plate}: ${esc(s.label)}">
-              <img class="spirit" src="${esc(shownSpirit)}" alt="The page with each haunting circled and numbered" loading="lazy">
-              ${shownLiving ? `<img class="living" src="${esc(shownLiving)}" alt="The page as a visitor sees it" loading="lazy" hidden>` : ''}
+              <img class="spirit" src="${esc(shownSpirit)}" alt="${esc(dicts.en.altSpirit)}" data-i18n-attr="alt:altSpirit" loading="lazy">
+              ${shownLiving ? `<img class="living" src="${esc(shownLiving)}" alt="${esc(dicts.en.altLiving)}" data-i18n-attr="alt:altLiving" loading="lazy" hidden>` : ''}
             </div>
-            <figcaption><span>Plate ${plate}. ${esc(s.label)}</span>
-              ${shownLiving ? '<button type="button" class="toggle" aria-pressed="false">Show the living page</button>' : ''}
-              <a href="${esc(s.spirit)}">${s.spiritDetail ? 'Open the whole page' : 'Open full size'}</a></figcaption>
+            <figcaption>${T('span', 'plate', { n: String(plate), label: esc(s.label) })}
+              ${shownLiving ? T('button', 'showLiving', {}, ' type="button" class="toggle" aria-pressed="false"') : ''}
+              ${T('a', s.spiritDetail ? 'openWhole' : 'openFull', {}, ` href="${esc(s.spirit)}"`)}</figcaption>
           </figure>`
         : '<p class="no-photo">No photograph: the page could not be captured.</p>';
       return `<div class="scene">${photo}<ol class="hauntings" aria-label="Hauntings on plate ${plate}">${list}</ol></div>`;
     }).join('');
+    const walked = T('span', g.device === 'mobile' ? 'walkedMobile' : 'walkedDesktop', { link: link(g.url), s: (g.ms / 1000).toFixed(1) });
     return `
     <article class="ghost" id="ghost-${i}" aria-labelledby="ghost-${i}-name">
       <header class="ghost-head">
         <h2 id="ghost-${i}-name">${esc(g.ghost)}</h2>
         ${g.lore ? `<p class="lore">${esc(g.lore)}</p>` : ''}
-        <p class="walk">Walked <a href="${esc(g.url)}">${esc(shortPath(g.url))}</a> on a ${esc(g.device)} screen in ${(g.ms / 1000).toFixed(1)} s.${g.state === 'lost' ? ` <strong class="mood-word restless">Got lost: ${esc(g.error ?? '')}</strong>` : ''}</p>
+        <p class="walk">${walked}${g.state === 'lost' ? ` ${T('strong', 'gotLost', { err: esc(g.error ?? '') }, ' class="mood-word restless"')}` : ''}</p>
         ${tallyLine}
       </header>
       ${scenes}
@@ -103,14 +124,16 @@ export function renderReportHtml(r) {
   }).join('');
 
   const quiet = ghostsQuiet.length
-    ? `<section class="quiet" aria-labelledby="quiet-h"><h2 id="quiet-h">Found nothing</h2><ul>${ghostsQuiet.map((g) => {
+    ? `<section class="quiet" aria-labelledby="quiet-h">${T('h2', 'quietTitle', {}, ' id="quiet-h"')}<ul>${ghostsQuiet.map((g) => {
       const i = r.crew.indexOf(g) + 1;
-      const t = Object.keys(g.tally).length && r.theme.tallyLabel ? ` ${esc(r.theme.tallyLabel.replace('{survived}', String(g.tally.survived ?? 0)).replace('{cast}', String(g.tally.cast ?? 0)))}` : '';
-      return `<li id="ghost-${i}"><strong>${esc(g.ghost)}</strong> walked <a href="${esc(g.url)}">${esc(shortPath(g.url))}</a> and found nothing.${t}</li>`;
+      const t = hasTally(g) ? ` ${T('span', 'appTally', tally(g))}` : '';
+      return `<li id="ghost-${i}">${T('span', 'quietItem', { ghost: `<strong>${esc(g.ghost)}</strong>`, link: link(g.url) })}${t}</li>`;
     }).join('')}</ul></section>` : '';
 
   const exorcised = exo && exo.exorcised.length
-    ? `<section class="released" aria-labelledby="released-h"><h2 id="released-h">Exorcised since the last séance</h2><ul>${exo.exorcised.map((h) => `<li><span class="seal ${h.mood}" aria-hidden="true">✓</span><span><strong>${esc(h.ghost)}</strong> no longer finds: ${esc(h.title)}</span></li>`).join('')}</ul></section>` : '';
+    ? `<section class="released" aria-labelledby="released-h">${T('h2', 'releasedTitle', {}, ' id="released-h"')}<ul>${exo.exorcised.map((h) => `<li><span class="seal ${h.mood}" aria-hidden="true">✓</span>${T('span', 'releasedItem', { ghost: `<strong>${esc(h.ghost)}</strong>`, title: esc(h.title) })}</li>`).join('')}</ul></section>` : '';
+
+  const registry = Object.entries(dicts).map(([code, d]) => `GhostI18n.register(${JSON.stringify(code)}, ${scriptJson(d)});`).join('\n');
 
   return `<!doctype html>
 <html lang="en">
@@ -127,22 +150,26 @@ export function renderReportHtml(r) {
 <div class="fog" aria-hidden="true"></div>
 <div class="wrap">
   <header class="masthead">
-    <a class="mark" href="https://github.com/alex4524/ghost-crew">${GHOST_MARK}<span>Ghost Crew</span></a>
+    <div class="topline">
+      <a class="mark" href="https://github.com/alex4524/ghost-crew">${GHOST_MARK}<span>Ghost Crew</span></a>
+      <div class="lang" data-lang-switch></div>
+    </div>
     <h1>${esc(r.theme.name)}</h1>
-    <p class="tagline">${esc(r.theme.tagline)}</p>
+    ${T('p', 'appTagline', {}, ' class="tagline"')}
     <dl class="meta">
-      <div><dt>Haunted</dt><dd>${esc(r.baseUrl ?? r.crew[0]?.url ?? '')}</dd></div>
-      <div><dt>Held</dt><dd><time datetime="${esc(r.startedAt)}">${esc(heldText)}</time></dd></div>
-      <div><dt>Lasted</dt><dd>${(r.ms / 1000).toFixed(1)} s</dd></div>
-      <div><dt>Crew</dt><dd>${plural(r.crew.length, 'ghost')}</dd></div>
+      <div>${T('dt', 'metaHaunted')}<dd>${esc(r.baseUrl ?? r.crew[0]?.url ?? '')}</dd></div>
+      <div>${T('dt', 'metaHeld')}<dd><time datetime="${esc(r.startedAt)}">${esc(heldText)}</time></dd></div>
+      <div>${T('dt', 'metaLasted')}${T('dd', 'lastedValue', { s: (r.ms / 1000).toFixed(1) })}</div>
+      <div>${T('dt', 'metaCrew')}${T('dd', r.crew.length === 1 ? 'crewOne' : 'crewMany', { n: String(r.crew.length) })}</div>
     </dl>
+    ${T('p', 'findingsNote', {}, ' class="findings-note"')}
   </header>
 
   <section class="verdict" aria-labelledby="verdict-h">
-    <h2 id="verdict-h" class="count">${esc(verdictTitle)}</h2>
-    ${total ? `<ul class="moods">${MOODS.map((m) => `<li class="${m}${r.totals[m] ? '' : ' none'}"><span class="seal ${m}" aria-hidden="true">${r.totals[m]}</span><span><span class="mood-word ${m}">${m}</span></span><span class="visually-hidden">: ${r.totals[m]}</span></li>`).join('')}</ul>` : '<p class="exo">Every ghost walked the house and came back with nothing to show.</p>'}
+    ${verdict}
+    ${total ? `<ul class="moods">${MOODS.map((m) => `<li class="${m}${r.totals[m] ? '' : ' none'}"><span class="seal ${m}" aria-hidden="true">${r.totals[m]}</span><span>${T('span', moodKey(m), {}, ` class="mood-word ${m}"`)}</span><span class="visually-hidden">: ${r.totals[m]}</span></li>`).join('')}</ul>` : T('p', 'nothingToShow', {}, ' class="exo"')}
     ${exoLine}
-    <nav class="ledger" aria-label="Ghosts in this séance"><ol>${ledger}</ol></nav>
+    <nav class="ledger" aria-label="${esc(dicts.en.ledgerLabel)}" data-i18n-attr="aria-label:ledgerLabel"><ol>${ledger}</ol></nav>
   </section>
 
   <main>
@@ -152,10 +179,12 @@ export function renderReportHtml(r) {
   </main>
 
   <footer class="foot">
-    <p>Recorded by <a href="https://github.com/alex4524/ghost-crew">Ghost Crew</a>, an open-source skeleton for browser QA. Every photograph was taken in a real Chrome during this run.</p>
+    ${T('p', 'footer', { link: '<a href="https://github.com/alex4524/ghost-crew">Ghost Crew</a>' })}
   </footer>
 </div>
+<script>${I18N_RUNTIME}</script>
 <script>
+${registry}
 for (const b of document.querySelectorAll('.toggle')) {
   b.addEventListener('click', () => {
     const fig = b.closest('figure');
@@ -163,12 +192,44 @@ for (const b of document.querySelectorAll('.toggle')) {
     const showLiving = b.getAttribute('aria-pressed') !== 'true';
     living.hidden = !showLiving; spirit.hidden = showLiving;
     b.setAttribute('aria-pressed', String(showLiving));
-    b.textContent = showLiving ? 'Show the spirit photograph' : 'Show the living page';
+    const key = showLiving ? 'showSpirit' : 'showLiving';
+    b.setAttribute('data-i18n', key);
+    b.setAttribute('data-i18n-en', ${scriptJson({ showSpirit: REPORT_STRINGS.en.showSpirit, showLiving: REPORT_STRINGS.en.showLiving })}[key]);
+    b.textContent = GhostI18n.t(key);
   });
 }
 </script>
 </body>
 </html>`;
+}
+
+/**
+ * Interface strings for every language, plus the app's own tagline and tally wording.
+ * An app may translate those in `theme.i18n`; otherwise its English is kept.
+ * @param {import('../types.js').Theme} theme
+ */
+export function reportDictionaries(theme) {
+  /** @type {Record<string, Record<string, string>>} */
+  const out = {};
+  for (const [code, d] of Object.entries(REPORT_STRINGS)) {
+    const own = theme.i18n?.[code] ?? {};
+    out[code] = {
+      ...d,
+      appTagline: own.tagline ?? theme.tagline,
+      appTally: own.tallyLabel ?? theme.tallyLabel ?? '',
+    };
+  }
+  return out;
+}
+
+/** @param {string} text @param {Record<string, string>} vars */
+function fill(text, vars) {
+  return String(text ?? '').replace(/\{(\w+)\}/g, (m, k) => (Object.prototype.hasOwnProperty.call(vars, k) ? vars[k] : m));
+}
+
+/** JSON safe to place inside a <script> element. @param {unknown} v */
+function scriptJson(v) {
+  return JSON.stringify(v).replace(/</g, '\\u003c').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
 }
 
 /** @param {string} u */
@@ -183,6 +244,10 @@ function shortPath(u) {
 
 const REPORT_CSS = `
 .masthead{padding:56px 0 28px;border-bottom:1px solid var(--rule)}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.lang-select{font:inherit;font-size:.95rem;color:var(--ink);background:var(--paper);border:1px solid var(--ink);border-radius:999px;padding:6px 12px;cursor:pointer}
+.findings-note{margin:18px 0 0;color:var(--tarnish);font-size:.95rem;max-width:72ch}
+.findings-note:empty{display:none}
 .masthead h1{font-size:clamp(3rem,7vw,5.25rem);margin-top:28px}
 .tagline{font-family:var(--display);font-style:italic;font-size:1.4rem;line-height:1.3;color:var(--tarnish);margin:.5rem 0 1.8rem;max-width:44ch}
 .meta{display:flex;flex-wrap:wrap;gap:10px 36px;margin:0}

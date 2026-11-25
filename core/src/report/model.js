@@ -27,10 +27,18 @@ export const SCHEMA = 'ghost-crew/report@1';
  */
 
 /**
- * @param {{ app: string, theme: Theme, baseUrl?: string, startedAt: Date, results: GhostResult[], baseline?: Report | null }} input
+ * `publicUrl` rewrites addresses that start with `from` to start with `to`, so a crew run
+ * against a local copy of a site can publish links to the public copy instead.
+ * @param {{ app: string, theme: Theme, baseUrl?: string, startedAt: Date, results: GhostResult[], baseline?: Report | null,
+ *   publicUrl?: { from: string, to: string } }} input
  * @returns {Report}
  */
-export function buildReport({ app, theme, baseUrl, startedAt, results, baseline = null }) {
+export function buildReport({ app, theme, baseUrl, startedAt, results: walked, baseline = null, publicUrl }) {
+  const swap = (/** @type {string | undefined} */ u) => (publicUrl && typeof u === 'string' && u.startsWith(publicUrl.from) ? publicUrl.to + u.slice(publicUrl.from.length) : u);
+  const results = publicUrl
+    ? walked.map((g) => ({ ...g, url: /** @type {string} */ (swap(g.url)), scenes: g.scenes.map((s) => ({ ...s, url: /** @type {string} */ (swap(s.url)) })) }))
+    : walked;
+  baseUrl = swap(baseUrl);
   const all = results.flatMap((r) => r.scenes.flatMap((s) => s.hauntings.map((h) => ({ ...h, ghost: r.ghost }))));
   const totals = /** @type {Report['totals']} */ ({ wrathful: 0, restless: 0, mischievous: 0, faint: 0, total: all.length });
   for (const h of all) totals[h.mood] += 1;

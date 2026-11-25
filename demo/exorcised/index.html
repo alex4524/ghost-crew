@@ -20,105 +20,108 @@
 </head>
 <body>
   <div class="notice">
-    <span>First word of autumn openings goes to our letter list.</span>
-    <button type="button" aria-label="Close notice" onclick="this.parentElement.remove()"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="2"/></svg></button>
+    <span data-i18n="notice">First word of autumn openings goes to our letter list.</span>
+    <button type="button" aria-label="Close notice" data-i18n-attr="aria-label:closeNotice" onclick="this.parentElement.remove()"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="2"/></svg></button>
   </div>
 
   <header class="site">
     <a class="logo" href="#top"><svg viewBox="0 0 30 30" aria-hidden="true"><path d="M15 2l7 11h-4l6 9h-6v6h-6v-6H6l6-9H8z" fill="#2F5D46"/></svg>Hollow Pines Inn</a>
     <nav aria-label="Main">
-      <a href="#rooms">Rooms</a>
-      <a href="#prices">Prices</a>
-      <a href="#book">Booking</a>
-      <a href="#walks">Lantern walks</a>
+      <a href="#rooms" data-i18n="navRooms">Rooms</a>
+      <a href="#prices" data-i18n="navPrices">Prices</a>
+      <a href="#book" data-i18n="navBooking">Booking</a>
+      <a href="#walks" data-i18n="navWalks">Lantern walks</a>
     </nav>
+    <div class="lang" data-lang-switch></div>
   </header>
 
   <main id="top">
     <div class="hero">
-      <img src="../shared/pines.svg" alt="The inn at night: lit windows among dark pines under a full moon">
+      <img src="../shared/pines.svg" alt="The inn at night: lit windows among dark pines under a full moon" data-i18n-attr="alt:altHero">
       <div class="hero-copy">
-        <h1>A quiet inn at the edge of the pines</h1>
-        <p class="whisper">Late check-out on Sundays. A lantern on every porch.</p>
-        <a class="cta" href="#book">Book now</a>
+        <h1 data-i18n="heroTitle">A quiet inn at the edge of the pines</h1>
+        <p class="whisper" data-i18n="heroWhisper">Late check-out on Sundays. A lantern on every porch.</p>
+        <a class="cta" href="#book" data-i18n="bookNow">Book now</a>
       </div>
     </div>
 
     <section id="rooms">
-      <h2>Three rooms, one fireplace</h2>
+      <h2 data-i18n="roomsTitle">Three rooms, one fireplace</h2>
       <div class="rooms">
         <article class="room">
-          <img src="../shared/room-garden.svg" alt="The garden room, a bed beside a wide window">
-          <h3>The Garden Room</h3>
-          <p>Ground floor, opens onto the herb beds.</p>
-          <p class="price">$140 a night</p>
+          <img src="../shared/room-garden.svg" alt="The garden room, a bed beside a wide window" data-i18n-attr="alt:altGarden">
+          <h3 data-i18n="gardenName">The Garden Room</h3>
+          <p data-i18n="gardenText">Ground floor, opens onto the herb beds.</p>
+          <p class="price" data-i18n="perNight" data-i18n-vars='{"price":"$140"}'>$140 a night</p>
         </article>
         <article class="room">
-          <img src="../shared/room-lantern.svg" alt="The attic room's round window at night">
-          <h3>The Attic</h3>
-          <p>Slanted ceiling, a round window, very quiet.</p>
-          <p class="price">$180 a night</p>
+          <img src="../shared/room-lantern.svg" alt="The attic room's round window at night" data-i18n-attr="alt:altAtticWindow">
+          <h3 data-i18n="atticName">The Attic</h3>
+          <p data-i18n="atticText">Slanted ceiling, a round window, very quiet.</p>
+          <p class="price" data-i18n="perNight" data-i18n-vars='{"price":"$180"}'>$180 a night</p>
         </article>
         <article class="room">
-          <img src="../shared/room-lantern.svg" alt="A lit lantern hanging on the porch at night">
-          <h3>The Lantern Room</h3>
-          <p>Private porch facing the moonrise.</p>
-          <p class="price">$220 a night</p>
+          <img src="../shared/room-lantern.svg" alt="A lit lantern hanging on the porch at night" data-i18n-attr="alt:altLantern">
+          <h3 data-i18n="lanternName">The Lantern Room</h3>
+          <p data-i18n="lanternText">Private porch facing the moonrise.</p>
+          <p class="price" data-i18n="perNight" data-i18n-vars='{"price":"$220"}'>$220 a night</p>
         </article>
       </div>
     </section>
 
     <section id="prices">
-      <h2>Prices by season</h2>
-      <div class="table-scroll" tabindex="0" role="region" aria-label="Prices by season">
+      <h2 data-i18n="pricesTitle">Prices by season</h2>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Prices by season" data-i18n-attr="aria-label:pricesTitle">
         <table class="prices">
-          <thead><tr><th>Room</th><th>Spring</th><th>Summer</th><th>Autumn</th><th>Winter</th></tr></thead>
+          <thead><tr><th data-i18n="thRoom">Room</th><th data-i18n="thSpring">Spring</th><th data-i18n="thSummer">Summer</th><th data-i18n="thAutumn">Autumn</th><th data-i18n="thWinter">Winter</th></tr></thead>
           <tbody>
-            <tr><td>Garden Room</td><td>$120</td><td>$140</td><td>$140</td><td>$110</td></tr>
-            <tr><td>The Attic</td><td>$150</td><td>$180</td><td>$180</td><td>$140</td></tr>
-            <tr><td>Lantern Room</td><td>$190</td><td>$220</td><td>$240</td><td>$180</td></tr>
+            <tr><td data-i18n="rowGarden">Garden Room</td><td>$120</td><td>$140</td><td>$140</td><td>$110</td></tr>
+            <tr><td data-i18n="rowAttic">The Attic</td><td>$150</td><td>$180</td><td>$180</td><td>$140</td></tr>
+            <tr><td data-i18n="rowLantern">Lantern Room</td><td>$190</td><td>$220</td><td>$240</td><td>$180</td></tr>
           </tbody>
         </table>
       </div>
-      <p class="muted-note">Prices include breakfast and firewood.</p>
+      <p class="muted-note" data-i18n="pricesNote">Prices include breakfast and firewood.</p>
     </section>
 
     <section id="book" class="booking">
       <div>
-        <h2>Reserve a room</h2>
+        <h2 data-i18n="bookTitle">Reserve a room</h2>
         <form id="booking" novalidate>
-          <label>Guest name <input name="guest" autocomplete="name" placeholder="Guest name"></label>
-          <label>Email <input name="email" type="email" autocomplete="email"></label>
-          <label>Nights <input name="nights" type="number" min="1" max="30" value="2"></label>
-          <label>Room
+          <label><span data-i18n="guestName">Guest name</span> <input name="guest" autocomplete="name" placeholder="Guest name" data-i18n-attr="placeholder:guestName"></label>
+          <label><span data-i18n="email">Email</span> <input name="email" type="email" autocomplete="email"></label>
+          <label><span data-i18n="nights">Nights</span> <input name="nights" type="number" min="1" max="30" value="2"></label>
+          <label><span data-i18n="room">Room</span>
             <select name="room">
-              <option value="garden">The Garden Room</option>
-              <option value="attic">The Attic</option>
-              <option value="lantern">The Lantern Room</option>
+              <option value="garden" data-i18n="gardenName">The Garden Room</option>
+              <option value="attic" data-i18n="atticName">The Attic</option>
+              <option value="lantern" data-i18n="lanternName">The Lantern Room</option>
             </select>
           </label>
           <p class="error" role="alert"></p>
-          <button type="submit">Reserve</button>
+          <button type="submit" data-i18n="reserve">Reserve</button>
         </form>
       </div>
       <div class="confirmation" id="confirmation" hidden>
         <div class="avatar"></div>
-        <h3>Your room is held, <span class="who"></span>!</h3>
-        <p>Name on the door: <span class="tag"></span></p>
+        <h3 class="held"></h3>
+        <p><span data-i18n="doorTag">Name on the door:</span> <span class="tag"></span></p>
         <p class="total"></p>
         <p class="stub"></p>
       </div>
     </section>
 
     <section id="walks">
-      <h2>Lantern walks</h2>
-      <p>Every Friday at dusk, a guided walk through the old pine wood. Bring boots.</p>
+      <h2 data-i18n="walksTitle">Lantern walks</h2>
+      <p data-i18n="walksText">Every Friday at dusk, a guided walk through the old pine wood. Bring boots.</p>
     </section>
   </main>
 
   <footer>
-    <p>Hollow Pines Inn, 4 Lantern Lane. A fictional inn for the Ghost Crew demo.</p>
+    <p data-i18n="footer">Hollow Pines Inn, 4 Lantern Lane. A fictional inn for the Ghost Crew demo.</p>
   </footer>
+  <script src="../shared/i18n.js"></script>
+  <script src="../shared/i18n-inn.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

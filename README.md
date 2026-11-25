@@ -1,3 +1,5 @@
+[English](README.md) | [简体中文](README.zh-CN.md) | [繁體中文](README.zh-TW.md) | [हिन्दी](README.hi.md) | [தமிழ்](README.ta.md)
+
 # Ghost Crew
 
 **Every web app is haunted.** Ghost Crew is a small skeleton for browser QA. You describe
@@ -14,6 +16,12 @@ Two apps are built on the skeleton:
 ([Poltergeist](https://alex4524.github.io/ghost-crew/reports/poltergeist/),
 [Phantom Form](https://alex4524.github.io/ghost-crew/reports/phantom-form/),
 [after the exorcism](https://alex4524.github.io/ghost-crew/reports/phantom-form-exorcised/)).
+The demo inn is live too: [haunted](https://alex4524.github.io/ghost-crew/demo/haunted/) and
+[exorcised](https://alex4524.github.io/ghost-crew/demo/exorcised/).
+
+The site, the demo inn and the séance records can be read in English, 简体中文, 繁體中文,
+हिन्दी and தமிழ். English is the default; the language menu sits at the top of each page.
+The findings themselves are written by the senses and stay in English.
 
 ![Spirit photograph of the demo inn: the page in silver tones with glowing rings and numbered seals on each accessibility problem](docs/images/spirit-poltergeist.png)
 
@@ -73,12 +81,13 @@ sees: a button's text, a field's label, or `css:<selector>` as a last resort.
 ## The skeleton
 
 ```
-core/                 the skeleton: 16 files
+core/                 the skeleton: 18 files
   src/ghost.js        parse + validate *.ghost.yaml (every problem at once)
   src/runner.js       one Chrome, one context per ghost, scenes, steps, events
   src/photograph.js   living page + spirit photograph + a crop around the evidence
   src/senses/         7 senses every app gets
   src/report/         report.json, exorcism diff, the séance record (HTML)
+  src/i18n/           the page language switcher shared by the site, demo and reports
   src/mcp.js          MCP server: list_ghosts, check_ghost, write_ghost, summon, read_report
 app-poltergeist/      app 1: 3 senses, theme, built-in crew, 5 demo ghosts
 app-phantom-form/     app 2: 14 curses, 1 sense, theme, built-in crew, 3 demo ghosts

@@ -16,6 +16,12 @@ export default defineApp({
     name: 'Poltergeist',
     tagline: 'Finds the parts of a page that some people cannot see, reach or read.',
     tallyLabel: '',
+    i18n: {
+      'zh-CN': { tagline: '找出页面上有人看不见、够不着或读不懂的地方。' },
+      'zh-TW': { tagline: '找出頁面上有人看不見、碰不到或讀不懂的地方。' },
+      hi: { tagline: 'पेज के वे हिस्से खोजता है जिन्हें कुछ लोग देख, छू या पढ़ नहीं पाते।' },
+      ta: { tagline: 'சிலரால் பார்க்க, அடைய அல்லது படிக்க முடியாத பக்கப் பகுதிகளைக் கண்டறிகிறது.' },
+    },
   },
   /** Zero-config crew for a bare URL. */
   defaultCrew: (url) => [

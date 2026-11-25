@@ -41,7 +41,8 @@ export function parseArgs(argv) {
 /**
  * Summon ghosts, write the séance record, print a summary.
  * @param {{ ghosts: Ghost[], appName: string, baseUrl?: string, out: string, baseline?: string,
- *   crewSize?: number, failOn?: string, json?: boolean, headed?: boolean, quiet?: boolean }} o
+ *   crewSize?: number, failOn?: string, json?: boolean, headed?: boolean, quiet?: boolean,
+ *   publicUrl?: { from: string, to: string } }} o
  */
 export async function haunt(o) {
   const app = requireApp(o.appName);
@@ -79,7 +80,7 @@ export async function haunt(o) {
     },
   });
 
-  const report = buildReport({ app: app.name, theme: app.theme, baseUrl: o.baseUrl, startedAt, results, baseline });
+  const report = buildReport({ app: app.name, theme: app.theme, baseUrl: o.baseUrl, startedAt, results, baseline, publicUrl: o.publicUrl });
   const files = await writeReport(report, o.out, renderReportHtml);
   const failRank = o.failOn === 'none' ? -1 : MOODS.indexOf(/** @type {any} */ (o.failOn ?? 'restless'));
   const failing = failRank < 0 ? 0 : results.flatMap((r) => r.scenes.flatMap((s) => s.hauntings)).filter((h) => MOODS.indexOf(h.mood) <= failRank).length;
