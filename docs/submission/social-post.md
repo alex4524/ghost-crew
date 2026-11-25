@@ -6,6 +6,8 @@ submission period (before 2026-12-04 14:00 PT).
 
 ## X / LinkedIn (under 280 characters)
 
+Posted on X on 2026-11-25: https://x.com/cooper9999cy/status/2125474262324850848
+
 #KiroweenHackathon26 My favourite thing about Kiro: steering files. I wrote the vocabulary and the ghost file shape before any code, and every ghost Kiro generated parsed first try. Ghost Crew photographs your web app's bugs: https://alex4524.github.io/ghost-crew/
 
 ## Video YouTube title and description

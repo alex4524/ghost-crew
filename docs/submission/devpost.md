@@ -77,7 +77,7 @@ The whole project was built in **Kiro Crew**, spec first:
 
 Kiro Crew also reviewed its own output. It ran the crew against the demo again and again, opened the spirit photographs, and fixed what it saw: the first Phantom Form photographs showed the top of the page while the haunting sat lower down, so the photographer now also saves a crop around the evidence. When it measured the design tokens, one link colour was 4.49:1, just under WCAG AA, so it darkened the token and added `scripts/contrast.mjs` to CI.
 
-Stack: Node 20 ESM with no build step, `playwright-core` driving the Chrome already installed (no browser download), axe-core, the MCP SDK, YAML. The core is 16 files; each app is about 220 lines.
+Stack: Node 20 ESM with no build step, `playwright-core` driving the Chrome already installed (no browser download), axe-core, the MCP SDK, YAML. The core is 18 files; each app is about 220 lines.
 
 ### Challenges we ran into
 
@@ -90,6 +90,7 @@ Stack: Node 20 ESM with no build step, `playwright-core` driving the Chrome alre
 
 - The theme is the interface. Spirit photographs, moods (wrathful, restless, mischievous, faint) and exorcism are how the tool shows evidence and progress, and every haunting title still reads as a plain fact.
 - The landing page and séance record pass their own audit: tokens are WCAG AA, the record works with a keyboard and screen reader, and it respects reduced motion.
+- The landing page, the demo inn and every séance record can be read in English, 简体中文, 繁體中文, हिन्दी and தமிழ். Ghosts always walk the English page, so the findings do not change with the reader's language.
 - Zero-config modes found real problems on the demo without being told where to look.
 
 ### What we learned
