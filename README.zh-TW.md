@@ -49,9 +49,9 @@ npm test                  # parser, report, MCP and end-to-end tests
 | 執行 | 幽靈 | 鬧鬼 | 說明 |
 |---|---|---|---|
 | Poltergeist，鬧鬼版旅館 | 5 | 9（3 暴怒，6 躁動） | 替代文字、按鈕名稱、lang、對比度、鍵盤陷阱、焦點框、手機溢出、圖片缺失 |
-| Phantom Form，鬧鬼版旅館 | 3 | 13（3 暴怒，7 躁動，3 調皮） | 扛住了 13 個詛咒中的 4 個 |
+| Phantom Form，鬧鬼版旅館 | 3 | 12（3 暴怒，6 躁動，3 調皮） | 扛住了 13 個詛咒中的 4 個；在 macOS 上是 13 處，超長名字還會讓頁面橫向捲動 |
 | Poltergeist，驅鬼後旅館 | 5 | 0 | 已驅除 9 處 |
-| Phantom Form，驅鬼後旅館 | 3 | 0 | 已驅除 13 處 |
+| Phantom Form，驅鬼後旅館 | 3 | 0 | 已驅除 12 處 |
 
 數字來自 2026-11-24 的 `npm run midnight`；線上網站顯示最新一次執行。
 

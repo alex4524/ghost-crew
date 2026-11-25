@@ -51,9 +51,9 @@ page with all of them fixed.
 | Run | Ghosts | Hauntings | Notes |
 |---|---|---|---|
 | Poltergeist, haunted inn | 5 | 9 (3 wrathful, 6 restless) | alt text, button name, lang, contrast, keyboard trap, focus rings, phone overflow, missing image |
-| Phantom Form, haunted inn | 3 | 13 (3 wrathful, 7 restless, 3 mischievous) | survived 4 of 13 curses |
+| Phantom Form, haunted inn | 3 | 12 (3 wrathful, 6 restless, 3 mischievous) | survived 4 of 13 curses; 13 hauntings on macOS, where a very long name also scrolls the page sideways |
 | Poltergeist, exorcised inn | 5 | 0 | 9 exorcised |
-| Phantom Form, exorcised inn | 3 | 0 | 13 exorcised |
+| Phantom Form, exorcised inn | 3 | 0 | 12 exorcised |
 
 Numbers are from `npm run midnight` on 2026-11-24; the live site shows the newest run.
 
